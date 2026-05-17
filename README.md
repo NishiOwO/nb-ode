@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/e744a8f0-e60e-4076-9d10-90763a52c94e
 
 Maybe these would be useful if you're using ODE for first time
 
-### Difference between body and Geometry
+### Difference between body and geometry
 
 Body is for rigid body physics (like movemenet, gravity, and etc.), and geometry is for collision.
 
