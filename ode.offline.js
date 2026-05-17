@@ -2129,16 +2129,16 @@ embedded = true;
 	function from_ode_array(buf, flip = false){
 		const s = flip ? -1 : 1;
 		if(up == "+Y"){
-			return [buf[0], buf[2] * s, buf[1], 0];
+			return [buf[0], buf[2], buf[1] * s, 0];
 		}else{
-			return [buf[0], buf[1], buf[2] * s, 0];
+			return [buf[0], buf[1] * s, buf[2], 0];
 		}
 	}
 
-	function from_ode(ptr){
+	function from_ode(ptr, flip = false){
 		const buf = new Float64Array(Module.HEAPF64.buffer, ptr);
 	
-		return from_ode_array(buf);
+		return from_ode_array(buf, flip);
 	}
 
 	function quaternion_to_euler(q){
