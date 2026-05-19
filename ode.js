@@ -4,7 +4,7 @@
 // By: NishiOwO
 // License: BSD-3-Clause
 
-// Repository is at https://github.com/nishiowo/nb-ode
+// Repository is at https://github.com/nitro-bolt/tw-ode
 
 (async function (Scratch) {
 	"use strict";
@@ -48,7 +48,7 @@
 		ode = ODEWASM;
 	} else {
 		ode = await Scratch.external.evalAndReturn(
-			"https://raw.githubusercontent.com/NishiOwO/tw-ode/5af154dbf8fbee14fa235a2d250b4b2c8bc25896/odejs.js",
+			"https://raw.githubusercontent.com/Nitro-Bolt/tw-ode/89d2a02145b2a537c6bbd67d53346c1725c46ee2/odejs.js",
 			"ODEWASM"
 		);
 	}
