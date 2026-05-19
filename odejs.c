@@ -41,3 +41,35 @@ void dDoCollision(dWorldID world, dSpaceID space, dJointGroupID contactgroup){
 
 	dSpaceCollide(space, (void*)args, near_callback);
 }
+
+void dBodyInitMass(dBodyID body, double mass) {
+        dMass m, mt;
+        dGeomID g;
+
+        dMassSetZero(&m);
+
+        for(g = dBodyGetFirstGeom(body); g != 0; g = dBodyGetNextGeom(g)){
+                int c = dGeomGetClass(g);
+
+                dMassSetZero(&mt);
+
+                if(c == dSphereClass){
+                        dMassSetSphereTotal(&mt, mass, dGeomSphereGetRadius(g));
+                }else if(c == dBoxClass){
+                        dVector3 v;
+
+                        dGeomBoxGetLengths(g, v);
+
+                        dMassSetBoxTotal(&mt, mass, v[0], v[1], v[2]);
+                }else if(c == dTriMeshClass){
+                        dMassSetTrimesh(&mt, mass, g);
+                }
+
+                dMassAdd(&m, &mt);
+        }
+
+        if(m.mass == 0) return;
+
+        dMassAdjust(&m, mass);
+        dBodySetMass(body, &m);
+}

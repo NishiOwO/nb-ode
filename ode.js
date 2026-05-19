@@ -17,10 +17,9 @@
 	let dInitODE2, dCloseODE;
 	let dDoCollision, dWorldStep, dWorldCreate, dHashSpaceCreate, dWorldDestroy, dSpaceDestroy, dWorldSetGravity;
 	let dJointGroupCreate, dJointGroupDestroy, dJointGroupEmpty;
-	let dBodyCreate, dBodySetMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion;
+	let dBodyCreate, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion;
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
-	let dMassSetBoxTotal, dMassSetCapsuleTotal, dMassSetCylinderTotal, dMassSetSphereTotal;
 	let ode;
 	let embedded = false;
 	var ODEWASM;
@@ -72,7 +71,7 @@
 	dDoCollision = Module.cwrap("dDoCollision", null, ["number", "number", "number"]);
 
 	dBodyCreate = Module.cwrap("dBodyCreate", "number", ["number"]);
-	dBodySetMass = Module.cwrap("dBodySetMass", "number", ["number", "number"]);
+	dBodyInitMass = Module.cwrap("dBodyInitMass", null, ["number", "number"]);
 	dBodyGetPosition = Module.cwrap("dBodyGetPosition", "number", ["number"]);
 	dBodySetPosition = Module.cwrap("dBodySetPosition", "number", ["number", "number", "number", "number"]);
 	dBodyGetQuaternion = Module.cwrap("dBodyGetQuaternion", "number", ["number"]);
@@ -89,11 +88,6 @@
 	dGeomSetPosition = Module.cwrap("dGeomSetPosition", "number", ["number", "number", "number", "number"]);
 	dGeomGetQuaternion = Module.cwrap("dGeomGetQuaternion", null, ["number", "number"]);
 	dGeomSetQuaternion = Module.cwrap("dGeomSetQuaternion", null, ["number", "number"]);
-
-	dMassSetBoxTotal = Module.cwrap("dMassSetBoxTotal", "number", ["number", "number", "number", "number", "number"]);
-	dMassSetCapsuleTotal = Module.cwrap("dMassSetCapsuleTotal", "number", ["number", "number", "number", "number", "number"]);
-	dMassSetCylinderTotal = Module.cwrap("dMassSetCylinderTotal", "number", ["number", "number", "number", "number", "number"]);
-	dMassSetSphereTotal = Module.cwrap("dMassSetSphereTotal", "number", ["number", "number", "number"]);
 
 	function new_obj_key(obj){
 		let n;
@@ -514,7 +508,7 @@
 						opcode: "geomAssociateBody",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
-							"associate body [BODY] with geometry [GEOM]"
+							"associate body [BODY] with geometry [GEOM] with mass [MASS]"
 						),
 						arguments: {
 							BODY: {
@@ -524,6 +518,10 @@
 							GEOM: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
+							},
+							MASS: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 1
 							}
 						}
 					},
@@ -865,12 +863,15 @@
 		geomAssociateBody(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 			const body = Scratch.Cast.toString(args.BODY);
+			const mass = Scratch.Cast.toNumber(args.MASS);
 
 			if(!geoms[geom]) return "";
 			if(!bodies[body]) return "";
 
 			dGeomSetBody(geoms[geom].geom, bodies[body].body);
 			geoms[geom].body = bodies[body].body;
+
+			dBodyInitMass(bodies[body].body, mass);
 		}
 
 		geomGetPosition(args) {
