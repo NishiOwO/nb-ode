@@ -37,11 +37,12 @@ You **MUST** move or rotate after associating the body with geometry, otherwise 
 
 ## TODO
 
- - [ ] Add joint stuffs
- - [ ] Add force stuffs
- - [ ] Add ray (and raycast)
- - [x] Add gravity function
- - [x] Add mass stuffs
- - [ ] Add trimesh
- - [ ] Add heightfield
- - [ ] Add convex? (Not well documented, so maybe not...)
+ - [ ] Joint stuffs
+ - [x] Force stuffs
+ - [x] Damping stuffs (Maybe default values?)
+ - [ ] Ray (and raycast)
+ - [x] Gravity function
+ - [x] Mass stuffs
+ - [ ] Trimesh
+ - [ ] Heightfield
+ - [ ] Convex? (Not well documented, so maybe not...)

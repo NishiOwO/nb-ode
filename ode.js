@@ -17,7 +17,7 @@
 	let dInitODE2, dCloseODE;
 	let dDoCollision, dWorldStep, dWorldCreate, dHashSpaceCreate, dWorldDestroy, dSpaceDestroy, dWorldSetGravity;
 	let dJointGroupCreate, dJointGroupDestroy, dJointGroupEmpty;
-	let dBodyCreate, dBodyDestroy, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion;
+	let dBodyCreate, dBodyDestroy, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion, dBodyAddForce, dBodyGetForce, dBodySetForce;
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomDestroy, dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
 	let ode;
@@ -77,6 +77,9 @@
 	dBodySetPosition = Module.cwrap("dBodySetPosition", "number", ["number", "number", "number", "number"]);
 	dBodyGetQuaternion = Module.cwrap("dBodyGetQuaternion", "number", ["number"]);
 	dBodySetQuaternion = Module.cwrap("dBodySetQuaternion", null, ["number", "number"]);
+	dBodyAddForce = Module.cwrap("dBodyAddForce", "number", ["number", "number", "number", "number"]);
+	dBodyGetForce = Module.cwrap("dBodyGetForce", "number", ["number"]);
+	dBodySetForce = Module.cwrap("dBodySetForce", "number", ["number", "number", "number", "number"]);
 
 	dCreateBox = Module.cwrap("dCreateBox", "number", ["number", "number", "number", "number"]);
 	dCreateCapsule = Module.cwrap("dCreateCapsule", "number", ["number", "number", "number"]);
@@ -378,6 +381,54 @@
 								defaultValue: ""
 							},
 							QUAT: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0, 1])
+							}
+						}
+					},
+					{
+						opcode: "bodyGetForce",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get force of body [BODY]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "bodyAddForce",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"add force [FORCE] to body [BODY]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							FORCE: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0, 1])
+							}
+						}
+					},
+					{
+						opcode: "bodySetForce",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set force of body [BODY] to [FORCE]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							FORCE: {
 								type: arg_array,
 								defaultValue: from_array([0, 0, 0, 1])
 							}
@@ -738,7 +789,7 @@
 			const body = Scratch.Cast.toString(args.BODY);
 			const pos = [...to_f32array(args.POS)];
 
-			if(!bodies[body] || pos.length != 3) return "";
+			if(!bodies[body] || pos.length != 3) return;
 
 			dBodySetPosition(bodies[body].body, pos[0], pos[1], pos[2]);
 		}
@@ -800,6 +851,34 @@
 			dBodySetQuaternion(bodies[body].body, ptr);
 
 			Module._free(ptr);
+		}
+
+		bodyAddForce(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const force = [...to_f32array(args.FORCE)];
+
+			if(!bodies[body] || force.length != 3) return;
+
+			dBodyAddForce(bodies[body].body, force[0], force[1], force[2]);
+		}
+
+		bodyGetForce(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+
+			if(!bodies[body]) return [];
+
+			const c = f64_view(dBodyGetForce(bodies[body].body));
+
+			return from_array([c[0], c[1], c[2]]);
+		}
+
+		bodySetForce(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const force = [...to_f32array(args.FORCE)];
+
+			if(!bodies[body] || force.length != 3) return;
+
+			dBodySetForce(bodies[body].body, force[0], force[1], force[2]);
 		}
 
 		newGeomBox(args) {
@@ -939,7 +1018,7 @@
 			const geom = Scratch.Cast.toString(args.GEOM);
 			const pos = [...to_f32array(args.POS)];
 
-			if(!geoms[geom] || pos.length != 3) return "";
+			if(!geoms[geom] || pos.length != 3) return;
 
 			dGeomSetPosition(geoms[geom].geom, pos[0], pos[1], pos[2]);
 		}
@@ -988,7 +1067,11 @@
 
 			const c = f64_view(ptr);
 
-			return from_array([c[1], c[2], c[3], c[0]]);
+			const r = [c[1], c[2], c[3], c[0]];
+
+			Module._free(ptr);
+
+			return from_array(r);
 		}
 
 		geomSetQuaternion(args) {
