@@ -14,7 +14,7 @@ In ODE you have to create them separately, but in this extension `new world` wil
 
 ### Coordinate system
 
-By default this extension uses `+X = right, +Y = up, -Z = front`, if you want to use different coordinate system, just change gravity.
+By default this extension uses `+Y = up` if you want to use different coordinate system, just change gravity.
 
 ## Things you might find useful
 
@@ -41,7 +41,7 @@ You **MUST** move or rotate after associating the body with geometry, otherwise 
  - [ ] Add force stuffs
  - [ ] Add ray (and raycast)
  - [x] Add gravity function
- - [ ] Add mass stuffs
+ - [x] Add mass stuffs
  - [ ] Add trimesh
  - [ ] Add heightfield
  - [ ] Add convex? (Not well documented, so maybe not...)
