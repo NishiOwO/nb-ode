@@ -16,6 +16,8 @@ In ODE you have to create them separately, but in this extension `new world` wil
 
 By default this extension uses `+Y = up` if you want to use different coordinate system, just change gravity.
 
+Lengths in capsules/cylinders are based on Z axis.
+
 ## Things you might find useful
 
 Maybe these would be useful if you're using ODE for first time.
@@ -24,7 +26,7 @@ Maybe these would be useful if you're using ODE for first time.
 
 Body is for rigid body physics (like movemenet, gravity, and etc.), and geometry is for collision.
 
-Which means if you want an object that never moves but has collision, you'd only make geometry.
+Which means if you want an object that never moves but has collision, you'd only make geometry. Or you can make the body kinematic.
 
 ### How you should create an object
 
