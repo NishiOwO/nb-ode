@@ -12,12 +12,11 @@
 	if (!Scratch.extensions.unsandboxed) {
 		throw new Error("ODE must be run unsandboxed");
 	}
-
 	let Module;
 	let dInitODE2, dCloseODE;
 	let dDoCollision, dWorldStep, dWorldCreate, dHashSpaceCreate, dWorldDestroy, dSpaceDestroy, dWorldSetGravity;
 	let dJointGroupCreate, dJointGroupDestroy, dJointGroupEmpty;
-	let dBodyCreate, dBodyDestroy, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion, dBodyAddForce, dBodyGetForce, dBodySetForce;
+	let dBodyCreate, dBodyDestroy, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion, dBodyAddForce, dBodyGetForce, dBodySetForce, dBodyGetLinearDamping, dBodyGetAngularDamping, dBodySetLinearDamping, dBodySetAngularDamping;
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomDestroy, dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
 	let ode;
@@ -80,6 +79,10 @@
 	dBodyAddForce = Module.cwrap("dBodyAddForce", "number", ["number", "number", "number", "number"]);
 	dBodyGetForce = Module.cwrap("dBodyGetForce", "number", ["number"]);
 	dBodySetForce = Module.cwrap("dBodySetForce", "number", ["number", "number", "number", "number"]);
+	dBodyGetAngularDamping = Module.cwrap("dBodyGetAngularDamping", "number", ["number"]);
+	dBodySetAngularDamping = Module.cwrap("dBodySetAngularDamping", null, ["number", "number"]);
+	dBodyGetLinearDamping = Module.cwrap("dBodyGetLinearDamping", "number", ["number"]);
+	dBodySetLinearDamping = Module.cwrap("dBodySetLinearDamping", null, ["number", "number"]);
 
 	dCreateBox = Module.cwrap("dCreateBox", "number", ["number", "number", "number", "number"]);
 	dCreateCapsule = Module.cwrap("dCreateCapsule", "number", ["number", "number", "number"]);
@@ -387,20 +390,6 @@
 						}
 					},
 					{
-						opcode: "bodyGetForce",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get force of body [BODY]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
 						opcode: "bodyAddForce",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
@@ -418,6 +407,20 @@
 						}
 					},
 					{
+						opcode: "bodyGetForce",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get force of body [BODY]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
 						opcode: "bodySetForce",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
@@ -431,6 +434,68 @@
 							FORCE: {
 								type: arg_array,
 								defaultValue: from_array([0, 0, 0, 1])
+							}
+						}
+					},
+					{
+						opcode: "bodyGetAngularDamping",
+						blockType: Scratch.BlockType.REPORTER,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get angular damping of body [BODY]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "bodySetAngularDamping",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set angular damping of body [BODY] to [ANGDAMP]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							ANGDAMP: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0
+							}
+						}
+					},
+					{
+						opcode: "bodyGetLinearDamping",
+						blockType: Scratch.BlockType.REPORTER,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get linear damping of body [BODY]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "bodySetLinearDamping",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set linear damping of body [BODY] to [LINDAMP]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							LINDAMP: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0
 							}
 						}
 					},
@@ -881,12 +946,46 @@
 			dBodySetForce(bodies[body].body, force[0], force[1], force[2]);
 		}
 
+		bodyGetAngularDamping(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+
+			if(!bodies[body]) return [];
+
+			return dBodyGetAngularDamping(bodies[body].body);
+		}
+
+		bodySetAngularDamping(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const angdamp = Scratch.Cast.toNumber(args.ANGDAMP);
+
+			if(!bodies[body]) return [];
+
+			dBodySetAngularDamping(bodies[body].body, angdamp);
+		}
+
+		bodyGetLinearDamping(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+
+			if(!bodies[body]) return [];
+
+			return dBodyGetLinearDamping(bodies[body].body);
+		}
+
+		bodySetLinearDamping(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const lindamp = Scratch.Cast.toNumber(args.LINDAMP);
+
+			if(!bodies[body]) return [];
+
+			dBodySetLinearDamping(bodies[body].body, lindamp);
+		}
+
 		newGeomBox(args) {
 			const sz = [...to_f32array(args.SIZE)].map(x=>Math.max(1, x));
 			const world = Scratch.Cast.toString(args.WORLD);
 
 			if(!worlds[world] || sz.length != 3) return "";
-
+N
 			const key = new_obj_key(geoms);
 
 			geoms[key] = {
