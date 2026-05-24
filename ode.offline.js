@@ -2605,6 +2605,36 @@ embedded = true;
 		];
 	}
 
+	function bodygeom_menu_to_field(m){
+		if(m == "rotation") return "ROT";
+		if(m == "quaternion") return "QUAT";
+		if(m == "force") return "FORCE";
+		return "POS";
+	}
+
+	function bodygeom_menu_to_func(m){
+		if(m == "rotation") return "Rotation";
+		if(m == "quaternion") return "Quaternion";
+		if(m == "force") return "Force";
+		return "Position";
+	}
+
+	function joint_menu_to_field(m){
+		if(m == "secondary anchor") return "ANCHOR";
+		if(m == "primary axis") return "AXIS";
+		if(m == "secondary axis") return "AXIS";
+		if(m == "teritiary axis") return "AXIS";
+		return "ANCHOR";
+	}
+
+	function joint_menu_to_func(m){
+		if(m == "secondary anchor") return "SecondaryAnchor";
+		if(m == "primary axis") return "PrimaryAxis";
+		if(m == "secondary axis") return "SecondaryAxis";
+		if(m == "teritiary axis") return "TeritiaryAxis";
+		return "PrimaryAnchor";
+	}
+
 	const blockIconURI = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB2aWV3Qm94PSIwIDAgMzIuMjEyNDM5IDMyLjIxMjQzOSIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0ic3ZnMSIKICAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIKICAgc29kaXBvZGk6ZG9jbmFtZT0ib2RlbG9nby5zdmciCiAgIGlua3NjYXBlOnZlcnNpb249IjEuNC4yIChmNDMyN2Y0LCAyMDI1LTA1LTEzKSIKICAgd2lkdGg9IjMyLjIxMjQ0IgogICBoZWlnaHQ9IjMyLjIxMjQ0IgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBpZD0ibmFtZWR2aWV3MSIKICAgICBwYWdlY29sb3I9IiNmZmZmZmYiCiAgICAgYm9yZGVyY29sb3I9IiMwMDAwMDAiCiAgICAgYm9yZGVyb3BhY2l0eT0iMC4yNSIKICAgICBpbmtzY2FwZTpzaG93cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICAgIGlua3NjYXBlOnBhZ2VjaGVja2VyYm9hcmQ9IjAiCiAgICAgaW5rc2NhcGU6ZGVza2NvbG9yPSIjZDFkMWQxIgogICAgIGlua3NjYXBlOnpvb209IjEzLjE4MzkyNSIKICAgICBpbmtzY2FwZTpjeD0iNDYuNjA5NzkyIgogICAgIGlua3NjYXBlOmN5PSIyMy4xNzIxNTkiCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxOTIwIgogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9IjExMzciCiAgICAgaW5rc2NhcGU6d2luZG93LXg9Ii04IgogICAgIGlua3NjYXBlOndpbmRvdy15PSItOCIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9ImxheWVyMSIgLz48ZGVmcwogICAgIGlkPSJkZWZzMSI+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDExIj48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTEiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDEyIj48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTIiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDEzIj48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTMiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDE0Ij48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTQiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDEwIj48cGF0aAogICAgICAgICBzdHlsZT0iYmFzZWxpbmUtc2hpZnQ6YmFzZWxpbmU7ZGlzcGxheTpub25lO292ZXJmbG93OnZpc2libGU7b3BhY2l0eToxO3ZlY3Rvci1lZmZlY3Q6bm9uZTtmaWxsOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVjYXA6c3F1YXJlO3N0cm9rZS1saW5lam9pbjpyb3VuZDtlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlO3N0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MSIKICAgICAgICAgZD0ibSA0MC42OTUzMSwxMTcuOTI5NjkgLTAuNDE3OTY3LDAuOTA4MiAwLjQ1NTA3OSwwLjIwODk5IGMgMCwwIDEuNjQyNDg4LDAuNzQwMTMgMy4zOTY0ODIsMy4yMjQ2IDEuMzc0MjUzLDEuOTQ2NTggMi43NTQ3NTgsNS4wMDYxMSAzLjM1OTM3Niw5LjU0MTAyIC0zLjI0NTExMiwtMC4zNzYyNyAtNS42NDkxNTMsLTIuNjE3NzYgLTguNzk2ODc2LC00Ljg5ODQ0IGEgMC41MDAwNSwwLjUwMDA1IDAgMCAwIC0wLjAwMzksLTAuMDAyIGMgLTQuNTU4MDA0LC0zLjI1OTYyIC04LjEyMTQ3MiwtNC4yMDk3MiAtMTAuMzc1LC00LjI3NTM5IGwgLTAuNDk5OTk5LC0wLjAxNTYgLTAuMDI5MywxIDAuNSwwLjAxNTYgYyAyLjAwMTc5MiwwLjA1ODMgNS4zOTIzNjEsMC45MTg0OSA5LjgyNDIxOSw0LjA4Nzg5IDMuMTI1NzE1LDIuMjY1MjkgNS43MzkzNDgsNC43NjYyIDkuNDY0ODQ1LDUuMTA5MzcgMC4wNzc5NiwwLjc1ODA2IDAuMTU5MDIxLDEuNTA4MDggMC4xODk0NTIsMi4zNDc2NiAtNi41NDY2OTksMC4yNjcxOCAtMTQuNjMwODY1LDAuMzExMjYgLTI0LjU0NDkyMSwtMC42MjEwOSBsIC0wLjQ5ODA0NywtMC4wNDY5IC0wLjA5Mzc1LDAuOTk2MSAwLjQ5ODA0NiwwLjA0NjkgYyA5Ljk2NTk4MiwwLjkzNzI0IDE4LjA4NjQ0MSwwLjg5Mjk5IDI0LjY4MTY0LDAuNjIzMDUgMC4wMjM2LDAuOTMwMzggLTAuMDM4NjcsMS43ODQxNyAtMC4xMjMwNDQsMi42MTcxOCAtMS42NzEzMjcsMC4xNzQzNyAtMy4xNDE2NjIsMC42OTE5OCAtNC41MDM5MDksMS41IC0xLjU4NDAyMywwLjkzOTU4IC0zLjEwNDEwNywyLjE1MDU3IC00LjkzOTQ1MiwzLjM1MTU3IGEgMC41MDAwNSwwLjUwMDA1IDAgMCAwIC0wLjAwMiwwLjAwMiBjIC00LjM0MzczNCwyLjg3NDI2IC03LjU3NzUxOSwyLjY4Njc1IC05Ljc0ODA0OCwyLjc1IGwgLTAuNDk5OTk5LDAuMDEzNyAwLjAyOTMsMSAwLjUsLTAuMDEzNyBjIDIuMDg0NDE2LC0wLjA2MDcgNS43MTQ1MzUsMC4wOTkxIDEwLjI2OTUzMSwtMi45MTQwNiBsIDAuMDAyLC0wLjAwMiBjIDEuODc5NDEsLTEuMjMwMDIgMy4zOTk5MzksLTIuNDM5MjcgNC44OTg0MzcsLTMuMzI4MTIgMS4yMzI3NjMsLTAuNzMxMjIgMi40ODc1MDYsLTEuMTY1NDIgMy45MDAzOTEsLTEuMzQzNzUgLTEuMTg2MjE5LDcuNzEwNCAtNi41NDg4MjgsMTAuOTcwNyAtNi41NDg4MjgsMTAuOTcwNyBsIC0wLjQyNTc4MiwwLjI1OTc3IDAuNTIxNDg2LDAuODUzNTEgMC40MjU3ODIsLTAuMjU5NzYgYyAwLDAgNS44ODg3NzUsLTMuNjM5NzggNy4wNzAzMTEsLTExLjk0MzM2IDEuMTcxNDQ2LDAuMDgwNiAxLjk2OTc1OCwwLjQxOTgyIDIuNTA1ODYsMC44OTg0NCAwLjU2NjM0MSwwLjUwNTYxIDAuODg1NywxLjE2NzI1IDEuMDU4NTkyLDEuODU1NDcgMC4zNDU3ODgsMS4zNzY0MiAwLjA2ODM2LDIuNzc3MzQgMC4wNjgzNiwyLjc3NzM0IGwgLTAuMTAxNTYzLDAuNDg4MjggMC45Nzg1MTYsMC4yMDMxMyAwLjEwMTU2MSwtMC40ODgyOSBjIDAsMCAwLjMzODQxMiwtMS41NzIzOCAtMC4wNzYxNywtMy4yMjI2NSAtMC4yMDcyOTMsLTAuODI1MTQgLTAuNjEyMDE1LC0xLjY4ODY3IC0xLjM2MzI4MywtMi4zNTkzOCAtMC43MTU3OTksLTAuNjM5MDQgLTEuNzU5NDM3LC0xLjA1OTM1IC0zLjEyMzA0NiwtMS4xNTAzOSAwLjA3Nzg5LC0wLjgyMzYgMC4xNDg2OTksLTEuNjU0NzIgMC4xMjQ5OTksLTIuNTY0NDUgMi40NTk5NjEsLTAuMTE5MDQgNS41MzczMjUsLTAuMTY3OTIgNy4xMjg5MDcsLTAuMzUxNTYgbCAwLjQ5ODA0OCwtMC4wNTY2IC0wLjExNTIzNiwtMC45OTQxNCAtMC40OTYwOTQsMC4wNTg2IGMgLTEuNTYwMjgyLDAuMTgwMDMgLTQuNjIzMjcsMC4yMjgwMSAtNy4wNjA1NDUsMC4zNDU3IC0wLjAyOTM5LC0wLjgwMTI2IC0wLjExMTI5MywtMS41MTYzOSAtMC4xODM1OTMsLTIuMjQ4MDQgMS4zNjA4NTYsLTAuMDk3NiAyLjQzMTI0LC0wLjU1OTg2IDMuMTQ4NDM2LC0xLjI4OTA3IDAuNzgyNTk0LC0wLjc5NTcgMS4xOTM3ODEsLTEuODE4MTMgMS40MDgyMDMsLTIuODA2NjQgMC40Mjg4NDUsLTEuOTc3MDIgMC4wODc4OSwtMy44OTQ1MyAwLjA4Nzg5LC0zLjg5NDUzIGwgLTAuMDg1OTQsLTAuNDkyMTkgLTAuOTg0Mzc0LDAuMTY5OTMgMC4wODM5OCwwLjQ5NDE0IGMgMCwwIDAuMjk4MzkyLDEuNzczOTkgLTAuMDc4MTMsMy41MDk3NiAtMC4xODgyNTYsMC44Njc4OSAtMC41NDIwMjksMS43MDU3NyAtMS4xNDQ1MywyLjMxODM2IC0wLjU1Mjg2MSwwLjU2MjEyIC0xLjM2MDUxMywwLjkyNjM5IC0yLjUxNTYyNSwxLjAwMzkxIC0wLjYxMDM3OCwtNC43OTM2NyAtMi4wNTg5NTksLTguMDk0NzQgLTMuNTQ4ODI5LC0xMC4yMDUwOCAtMS44NzQyODEsLTIuNjU0ODUgLTMuNzk4ODI2LC0zLjU1NDY5IC0zLjc5ODgzLC0zLjU1NDY5IHoiCiAgICAgICAgIGlkPSJwYXRoMTAiIC8+PHBhdGgKICAgICAgICAgaWQ9ImxwZV9wYXRoLWVmZmVjdDEwIgogICAgICAgICBzdHlsZT0iYmFzZWxpbmUtc2hpZnQ6YmFzZWxpbmU7ZGlzcGxheTppbmxpbmU7b3ZlcmZsb3c6dmlzaWJsZTtvcGFjaXR5OjE7dmVjdG9yLWVmZmVjdDpub25lO2ZpbGw6I2ZmZmZmZjtzdHJva2Utd2lkdGg6MTtzdHJva2UtbGluZWNhcDpzcXVhcmU7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO2VuYWJsZS1iYWNrZ3JvdW5kOmFjY3VtdWxhdGU7c3RvcC1jb2xvcjojMDAwMDAwO3N0b3Atb3BhY2l0eToxIgogICAgICAgICBjbGFzcz0icG93ZXJjbGlwIgogICAgICAgICBkPSJtIDE4LjUyOTQ3NiwxMTMuODE3MSBoIDQyLjIxMjQ0MSB2IDQyLjIxMjQ0IEggMTguNTI5NDc2IFogbSAyMi4xNjU4MzQsNC4xMTI1OSAtMC40MTc5NjcsMC45MDgyIDAuNDU1MDc5LDAuMjA4OTkgYyAwLDAgMS42NDI0ODgsMC43NDAxMyAzLjM5NjQ4MiwzLjIyNDYgMS4zNzQyNTMsMS45NDY1OCAyLjc1NDc1OCw1LjAwNjExIDMuMzU5Mzc2LDkuNTQxMDIgLTMuMjQ1MTEyLC0wLjM3NjI3IC01LjY0OTE1MywtMi42MTc3NiAtOC43OTY4NzYsLTQuODk4NDQgYSAwLjUwMDA1LDAuNTAwMDUgMCAwIDAgLTAuMDAzOSwtMC4wMDIgYyAtNC41NTgwMDQsLTMuMjU5NjIgLTguMTIxNDcyLC00LjIwOTcyIC0xMC4zNzUsLTQuMjc1MzkgbCAtMC40OTk5OTksLTAuMDE1NiAtMC4wMjkzLDEgMC41LDAuMDE1NiBjIDIuMDAxNzkyLDAuMDU4MyA1LjM5MjM2MSwwLjkxODQ5IDkuODI0MjE5LDQuMDg3ODkgMy4xMjU3MTUsMi4yNjUyOSA1LjczOTM0OCw0Ljc2NjIgOS40NjQ4NDUsNS4xMDkzNyAwLjA3Nzk2LDAuNzU4MDYgMC4xNTkwMjEsMS41MDgwOCAwLjE4OTQ1MiwyLjM0NzY2IC02LjU0NjY5OSwwLjI2NzE4IC0xNC42MzA4NjUsMC4zMTEyNiAtMjQuNTQ0OTIxLC0wLjYyMTA5IGwgLTAuNDk4MDQ3LC0wLjA0NjkgLTAuMDkzNzUsMC45OTYxIDAuNDk4MDQ2LDAuMDQ2OSBjIDkuOTY1OTgyLDAuOTM3MjQgMTguMDg2NDQxLDAuODkyOTkgMjQuNjgxNjQsMC42MjMwNSAwLjAyMzYsMC45MzAzOCAtMC4wMzg2NywxLjc4NDE3IC0wLjEyMzA0NCwyLjYxNzE4IC0xLjY3MTMyNywwLjE3NDM3IC0zLjE0MTY2MiwwLjY5MTk4IC00LjUwMzkwOSwxLjUgLTEuNTg0MDIzLDAuOTM5NTggLTMuMTA0MTA3LDIuMTUwNTcgLTQuOTM5NDUyLDMuMzUxNTcgYSAwLjUwMDA1LDAuNTAwMDUgMCAwIDAgLTAuMDAyLDAuMDAyIGMgLTQuMzQzNzM0LDIuODc0MjYgLTcuNTc3NTE5LDIuNjg2NzUgLTkuNzQ4MDQ4LDIuNzUgbCAtMC40OTk5OTksMC4wMTM3IDAuMDI5MywxIDAuNSwtMC4wMTM3IGMgMi4wODQ0MTYsLTAuMDYwNyA1LjcxNDUzNSwwLjA5OTEgMTAuMjY5NTMxLC0yLjkxNDA2IGwgMC4wMDIsLTAuMDAyIGMgMS44Nzk0MSwtMS4yMzAwMiAzLjM5OTkzOSwtMi40MzkyNyA0Ljg5ODQzNywtMy4zMjgxMiAxLjIzMjc2MywtMC43MzEyMiAyLjQ4NzUwNiwtMS4xNjU0MiAzLjkwMDM5MSwtMS4zNDM3NSAtMS4xODYyMTksNy43MTA0IC02LjU0ODgyOCwxMC45NzA3IC02LjU0ODgyOCwxMC45NzA3IGwgLTAuNDI1NzgyLDAuMjU5NzcgMC41MjE0ODYsMC44NTM1MSAwLjQyNTc4MiwtMC4yNTk3NiBjIDAsMCA1Ljg4ODc3NSwtMy42Mzk3OCA3LjA3MDMxMSwtMTEuOTQzMzYgMS4xNzE0NDYsMC4wODA2IDEuOTY5NzU4LDAuNDE5ODIgMi41MDU4NiwwLjg5ODQ0IDAuNTY2MzQxLDAuNTA1NjEgMC44ODU3LDEuMTY3MjUgMS4wNTg1OTIsMS44NTU0NyAwLjM0NTc4OCwxLjM3NjQyIDAuMDY4MzYsMi43NzczNCAwLjA2ODM2LDIuNzc3MzQgbCAtMC4xMDE1NjMsMC40ODgyOCAwLjk3ODUxNiwwLjIwMzEzIDAuMTAxNTYxLC0wLjQ4ODI5IGMgMCwwIDAuMzM4NDEyLC0xLjU3MjM4IC0wLjA3NjE3LC0zLjIyMjY1IC0wLjIwNzI5MywtMC44MjUxNCAtMC42MTIwMTUsLTEuNjg4NjcgLTEuMzYzMjgzLC0yLjM1OTM4IC0wLjcxNTc5OSwtMC42MzkwNCAtMS43NTk0MzcsLTEuMDU5MzUgLTMuMTIzMDQ2LC0xLjE1MDM5IDAuMDc3ODksLTAuODIzNiAwLjE0ODY5OSwtMS42NTQ3MiAwLjEyNDk5OSwtMi41NjQ0NSAyLjQ1OTk2MSwtMC4xMTkwNCA1LjUzNzMyNSwtMC4xNjc5MiA3LjEyODkwNywtMC4zNTE1NiBsIDAuNDk4MDQ4LC0wLjA1NjYgLTAuMTE1MjM2LC0wLjk5NDE0IC0wLjQ5NjA5NCwwLjA1ODYgYyAtMS41NjAyODIsMC4xODAwMyAtNC42MjMyNywwLjIyODAxIC03LjA2MDU0NSwwLjM0NTcgLTAuMDI5MzksLTAuODAxMjYgLTAuMTExMjkzLC0xLjUxNjM5IC0wLjE4MzU5MywtMi4yNDgwNCAxLjM2MDg1NiwtMC4wOTc2IDIuNDMxMjQsLTAuNTU5ODYgMy4xNDg0MzYsLTEuMjg5MDcgMC43ODI1OTQsLTAuNzk1NyAxLjE5Mzc4MSwtMS44MTgxMyAxLjQwODIwMywtMi44MDY2NCAwLjQyODg0NSwtMS45NzcwMiAwLjA4Nzg5LC0zLjg5NDUzIDAuMDg3ODksLTMuODk0NTMgbCAtMC4wODU5NCwtMC40OTIxOSAtMC45ODQzNzQsMC4xNjk5MyAwLjA4Mzk4LDAuNDk0MTQgYyAwLDAgMC4yOTgzOTIsMS43NzM5OSAtMC4wNzgxMywzLjUwOTc2IC0wLjE4ODI1NiwwLjg2Nzg5IC0wLjU0MjAyOSwxLjcwNTc3IC0xLjE0NDUzLDIuMzE4MzYgLTAuNTUyODYxLDAuNTYyMTIgLTEuMzYwNTEzLDAuOTI2MzkgLTIuNTE1NjI1LDEuMDAzOTEgLTAuNjEwMzc4LC00Ljc5MzY3IC0yLjA1ODk1OSwtOC4wOTQ3NCAtMy41NDg4MjksLTEwLjIwNTA4IC0xLjg3NDI4MSwtMi42NTQ4NSAtMy43OTg4MjYsLTMuNTU0NjkgLTMuNzk4ODMsLTMuNTU0NjkgeiIgLz48L2NsaXBQYXRoPjwvZGVmcz48ZwogICAgIGlkPSJsYXllcjEiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0LjIyMjA4MywtMTAuNzcwNjUpIj48ZwogICAgICAgaWQ9ImcxIj48cGF0aAogICAgICAgICBzdHlsZT0iZmlsbDojZmY3ZjUwO2ZpbGwtb3BhY2l0eToxO3N0cm9rZS13aWR0aDowLjI3Mjk3IgogICAgICAgICBpZD0icGF0aDEiCiAgICAgICAgIGNsaXAtcGF0aD0idXJsKCNjbGlwUGF0aDEwKSIKICAgICAgICAgdHJhbnNmb3JtPSJyb3RhdGUoMTQwLDU0LjY0NDg0Niw3OS4yMDYyODgpIgogICAgICAgICBkPSJtIDU1Ljc0MTkxNywxMzQuOTIzMzIgYSAxNi4xMDYyMiwxNi4xMDYyMiAwIDAgMSAtMTYuMTA2MjIxLDE2LjEwNjIyIDE2LjEwNjIyLDE2LjEwNjIyIDAgMCAxIC0xNi4xMDYyMiwtMTYuMTA2MjIgMTYuMTA2MjIsMTYuMTA2MjIgMCAwIDEgMTYuMTA2MjIsLTE2LjEwNjIyIDE2LjEwNjIyLDE2LjEwNjIyIDAgMCAxIDE2LjEwNjIyMSwxNi4xMDYyMiB6IiAvPjwvZz48L2c+PC9zdmc+Cg==";
 
 	class ODE {
@@ -2615,6 +2645,30 @@ embedded = true;
 				blockIconURI: blockIconURI,
 				color1: "#444444",
 				menus: {
+					bodyArrayType: {
+						acceptReporters: false,
+						items: [
+							"position",
+							"rotation",
+							"quaternion",
+							"force"
+						]
+		   			},
+					bodyDampingType: {
+						acceptReporters: false,
+						items: [
+							"angular damping",
+							"linear damping"
+						]
+					},
+					geomArrayType: {
+						acceptReporters: false,
+						items: [
+							"position",
+							"rotation",
+							"quaternion"
+						]
+		   			},
 					jointType: {
 						acceptReporters: false,
 						items: [
@@ -2632,6 +2686,23 @@ embedded = true;
 							"Slider",
 							"Transmission",
 							"Universal"
+						]
+					},
+					jointArrayType: {
+						acceptReporters: false,
+						items: [
+							"primary anchor",
+							"secondary anchor",
+							"primary axis",
+							"secondary axis",
+							"teritiary axis",
+						]
+					},
+					jointAngleType: {
+						acceptReporters: false,
+						items: [
+							"primary angle",
+							"secondary angle",
 						]
 					}
 				},
@@ -2784,95 +2855,43 @@ embedded = true;
 						}
 					},
 					{
-						opcode: "bodyGetPosition",
+						opcode: "bodyGetArray",
 						blockType: blk_array,
 						disableMonitor: true,
 						text: Scratch.translate(
-							"get position of body [BODY]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "bodySetPosition",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set position of body [BODY] to [POS]"
+							"get [TYPE] of body [BODY]"
 						),
 						arguments: {
 							BODY: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
 							},
-							POS: {
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "position",
+								menu: "bodyArrayType"
+							}
+						}
+					},
+					{
+						opcode: "bodySetArray",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set [TYPE] of body [BODY] to [ARRAY]"
+						),
+						arguments: {
+							BODY: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "position",
+								menu: "bodyArrayType"
+							},
+							ARRAY: {
 								type: arg_array,
 								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "bodyGetRotation",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get rotation of body [BODY]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "bodySetRotation",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set rotation of body [BODY] to [ROT]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							ROT: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "bodyGetQuaternion",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get quaternion of body [BODY]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "bodySetQuaternion",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set quaternion of body [BODY] to [QUAT]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							QUAT: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0, 1])
 							}
 						}
 					},
@@ -2889,100 +2908,48 @@ embedded = true;
 							},
 							FORCE: {
 								type: arg_array,
-								defaultValue: from_array([0, 0, 0, 1])
+								defaultValue: from_array([0, 0, 0])
 							}
 						}
 					},
 					{
-						opcode: "bodyGetForce",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get force of body [BODY]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "bodySetForce",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set force of body [BODY] to [FORCE]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							FORCE: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0, 1])
-							}
-						}
-					},
-					{
-						opcode: "bodyGetAngularDamping",
+						opcode: "bodyGetDamping",
 						blockType: Scratch.BlockType.REPORTER,
 						disableMonitor: true,
 						text: Scratch.translate(
-							"get angular damping of body [BODY]"
-						),
-						arguments: {
-							BODY: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "bodySetAngularDamping",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set angular damping of body [BODY] to [ANGDAMP]"
+							"get [TYPE] of body [BODY]"
 						),
 						arguments: {
 							BODY: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
 							},
-							ANGDAMP: {
-								type: Scratch.ArgumentType.NUMBER,
-								defaultValue: 0
-							}
-						}
-					},
-					{
-						opcode: "bodyGetLinearDamping",
-						blockType: Scratch.BlockType.REPORTER,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get linear damping of body [BODY]"
-						),
-						arguments: {
-							BODY: {
+							TYPE: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
+								defaultValue: "angular damping",
+								menu: "bodyDampingType"
 							}
 						}
 					},
 					{
-						opcode: "bodySetLinearDamping",
+						opcode: "bodySetDamping",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
-							"set linear damping of body [BODY] to [LINDAMP]"
+							"set [TYPE] of body [BODY] to [DAMP]"
 						),
 						arguments: {
 							BODY: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
 							},
-							LINDAMP: {
+							DAMP: {
 								type: Scratch.ArgumentType.NUMBER,
 								defaultValue: 0
+							},
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "angular damping",
+								menu: "bodyDampingType"
 							}
 						}
 					},
@@ -3029,7 +2996,7 @@ embedded = true;
 					{
 						blockType: "label",
 						text: Scratch.translate(
-							"Geometry Creation"
+							"Geometry"
 						)
 					},
 					{
@@ -3143,12 +3110,6 @@ embedded = true;
 						}
 					},
 					{
-						blockType: "label",
-						text: Scratch.translate(
-							"Geometry Utility"
-						)
-					},
-					{
 						opcode: "geomDestroy",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
@@ -3183,95 +3144,43 @@ embedded = true;
 						}
 					},
 					{
-						opcode: "geomGetPosition",
+						opcode: "geomGetArray",
 						blockType: blk_array,
 						disableMonitor: true,
 						text: Scratch.translate(
-							"get position of geometry [GEOM]"
-						),
-						arguments: {
-							GEOM: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "geomSetPosition",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set position of geometry [GEOM] to [POS]"
+							"get [TYPE] of geometry [GEOM]"
 						),
 						arguments: {
 							GEOM: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
 							},
-							POS: {
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "position",
+								menu: "geomArrayType"
+							}
+						}
+					},
+					{
+						opcode: "geomSetArray",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set [TYPE] of geometry [GEOM] to [ARRAY]"
+						),
+						arguments: {
+							GEOM: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "position",
+								menu: "geomArrayType"
+							},
+							ARRAY: {
 								type: arg_array,
 								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "geomGetRotation",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get rotation of geometry [GEOM]"
-						),
-						arguments: {
-							GEOM: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "geomSetRotation",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set rotation of geometry [GEOM] to [ROT]"
-						),
-						arguments: {
-							GEOM: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							ROT: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "geomGetQuaternion",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get quaternion of geometry [GEOM]"
-						),
-						arguments: {
-							GEOM: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "geomSetQuaternion",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set quaternion of geometry [GEOM] to [QUAT]"
-						),
-						arguments: {
-							GEOM: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							QUAT: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0, 1])
 							}
 						}
 					},
@@ -3318,179 +3227,70 @@ embedded = true;
 						}
 					},
 					{
-						opcode: "jointGetPrimaryAnchor",
+						opcode: "jointGetArray",
 						blockType: blk_array,
 						disableMonitor: true,
 						text: Scratch.translate(
-							"get primary anchor of joint [JOINT]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "jointSetPrimaryAnchor",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set primary anchor of joint [JOINT] to [ANCHOR]"
+							"get [TYPE] of joint [JOINT]"
 						),
 						arguments: {
 							JOINT: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
 							},
-							ANCHOR: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "jointGetSecondaryAnchor",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get secondary anchor of joint [JOINT]"
-						),
-						arguments: {
-							JOINT: {
+							TYPE: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
+								defaultValue: "primary anchor",
+								menu: "jointArrayType"
 							}
 						}
 					},
 					{
-						opcode: "jointSetSecondaryAnchor",
+						opcode: "jointSetArray",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
-							"set secondary anchor of joint [JOINT] to [ANCHOR]"
+							"set [TYPE] of joint [JOINT] to [ARRAY]"
 						),
 						arguments: {
 							JOINT: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
 							},
-							ANCHOR: {
+							ARRAY: {
 								type: arg_array,
 								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "jointGetPrimaryAxis",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get primary axis of joint [JOINT]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "jointSetPrimaryAxis",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set primary axis of joint [JOINT] to [AXIS]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
 							},
-							AXIS: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "jointGetSecondaryAxis",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get secondary axis of joint [JOINT]"
-						),
-						arguments: {
-							JOINT: {
+							TYPE: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
+								defaultValue: "primary anchor",
+								menu: "jointArrayType"
 							}
 						}
 					},
 					{
-						opcode: "jointSetSecondaryAxis",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set secondary axis of joint [JOINT] to [AXIS]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							AXIS: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "jointGetTertiaryAxis",
-						blockType: blk_array,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get tertiary axis of joint [JOINT]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "jointSetTertiaryAxis",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set tertiary axis of joint [JOINT] to [AXIS]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							},
-							AXIS: {
-								type: arg_array,
-								defaultValue: from_array([0, 0, 0])
-							}
-						}
-					},
-					{
-						opcode: "jointGetPrimaryAngle",
+						opcode: "jointGetAngle",
 						blockType: Scratch.BlockType.REPORTER,
 						disableMonitor: true,
 						text: Scratch.translate(
-							"get primary angle of joint [JOINT]"
+							"get [TYPE] of joint [JOINT]"
 						),
 						arguments: {
 							JOINT: {
 								type: Scratch.ArgumentType.STRING,
 								defaultValue: ""
+							},
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "primary angle",
+								menu: "jointAngleType"
 							}
 						}
 					},
 					{
-						opcode: "jointSetPrimaryAngle",
+						opcode: "jointSetAngle",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
-							"set primary angle of joint [JOINT] to [ANGLE]"
+							"set [TYPE] of joint [JOINT] to [ANGLE]"
 						),
 						arguments: {
 							JOINT: {
@@ -3500,37 +3300,11 @@ embedded = true;
 							ANGLE: {
 								type: Scratch.ArgumentType.NUMBER,
 								defaultValue: 0
-							}
-						}
-					},
-					{
-						opcode: "jointGetSecondaryAngle",
-						blockType: Scratch.BlockType.REPORTER,
-						disableMonitor: true,
-						text: Scratch.translate(
-							"get secondary angle of joint [JOINT]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
-							}
-						}
-					},
-					{
-						opcode: "jointSetSecondaryAngle",
-						blockType: Scratch.BlockType.COMMAND,
-						text: Scratch.translate(
-							"set secondary angle of joint [JOINT] to [ANGLE]"
-						),
-						arguments: {
-							JOINT: {
-								type: Scratch.ArgumentType.STRING,
-								defaultValue: ""
 							},
-							ANGLE: {
-								type: Scratch.ArgumentType.NUMBER,
-								defaultValue: 0
+							TYPE: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "primary angle",
+								menu: "jointAngleType"
 							}
 						}
 					},
@@ -3710,7 +3484,7 @@ embedded = true;
 			delete bodies[body];
 		}
 
-		bodyGetPosition(args) {
+		_bodyGetPosition(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 
 			if(!bodies[body]) return [];
@@ -3720,7 +3494,7 @@ embedded = true;
 			return from_array([c[0], c[1], c[2]]);
 		}
 
-		bodySetPosition(args) {
+		_bodySetPosition(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 			const pos = [...to_f32array(args.POS)];
 
@@ -3729,7 +3503,7 @@ embedded = true;
 			dBodySetPosition(bodies[body].body, pos[0], pos[1], pos[2]);
 		}
 
-		bodyGetRotation(args) {
+		_bodyGetRotation(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 
 			if(!bodies[body]) return [];
@@ -3742,7 +3516,7 @@ embedded = true;
 			return from_array(r.slice(0, 3));
 		}
 
-		bodySetRotation(args) {
+		_bodySetRotation(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 			const rot = [...to_f32array(args.ROT)];
 
@@ -3759,7 +3533,7 @@ embedded = true;
 			Module._free(ptr);
 		}
 
-		bodyGetQuaternion(args) {
+		_bodyGetQuaternion(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 
 			if(!bodies[body]) return [];
@@ -3772,7 +3546,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		bodySetQuaternion(args) {
+		_bodySetQuaternion(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 			const quat = [...to_f32array(args.QUAT)];
 
@@ -3788,16 +3562,7 @@ embedded = true;
 			Module._free(ptr);
 		}
 
-		bodyAddForce(args) {
-			const body = Scratch.Cast.toString(args.BODY);
-			const force = [...to_f32array(args.FORCE)];
-
-			if(!bodies[body] || force.length != 3) return;
-
-			dBodyAddForce(bodies[body].body, force[0], force[1], force[2]);
-		}
-
-		bodyGetForce(args) {
+		_bodyGetForce(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 
 			if(!bodies[body]) return [];
@@ -3807,7 +3572,7 @@ embedded = true;
 			return from_array([c[0], c[1], c[2]]);
 		}
 
-		bodySetForce(args) {
+		_bodySetForce(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 			const force = [...to_f32array(args.FORCE)];
 
@@ -3816,7 +3581,31 @@ embedded = true;
 			dBodySetForce(bodies[body].body, force[0], force[1], force[2]);
 		}
 
-		bodyGetAngularDamping(args) {
+		bodyGetArray(args) {
+			const type = Scratch.Cast.toString(args.TYPE);
+
+			return this["_bodyGet" + bodygeom_menu_to_func(type)]({BODY: args.BODY});
+		}
+
+		bodySetArray(args) {
+			const type = Scratch.Cast.toString(args.TYPE);
+			let v = {BODY: args.BODY};
+
+			v[bodygeom_menu_to_field(type)] = args.ARRAY;
+
+			this["_bodySet" + bodygeom_menu_to_func(type)](v);
+		}
+
+		bodyAddForce(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const force = [...to_f32array(args.FORCE)];
+
+			if(!bodies[body] || force.length != 3) return;
+
+			dBodyAddForce(bodies[body].body, force[0], force[1], force[2]);
+		}
+
+		_bodyGetAngularDamping(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 
 			if(!bodies[body]) return [];
@@ -3824,7 +3613,7 @@ embedded = true;
 			return dBodyGetAngularDamping(bodies[body].body);
 		}
 
-		bodySetAngularDamping(args) {
+		_bodySetAngularDamping(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 			const angdamp = Scratch.Cast.toNumber(args.ANGDAMP);
 
@@ -3833,7 +3622,7 @@ embedded = true;
 			dBodySetAngularDamping(bodies[body].body, angdamp);
 		}
 
-		bodyGetLinearDamping(args) {
+		_bodyGetLinearDamping(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 
 			if(!bodies[body]) return [];
@@ -3841,13 +3630,30 @@ embedded = true;
 			return dBodyGetLinearDamping(bodies[body].body);
 		}
 
-		bodySetLinearDamping(args) {
+		_bodySetLinearDamping(args) {
 			const body = Scratch.Cast.toString(args.BODY);
 			const lindamp = Scratch.Cast.toNumber(args.LINDAMP);
 
 			if(!bodies[body]) return;
 
 			dBodySetLinearDamping(bodies[body].body, lindamp);
+		}
+
+		bodyGetDamping(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const type = Scratch.Cast.toString(args.TYPE);
+			
+			return this["_bodyGet" + (type == "linear damping" ? "Linear" : "Angular") + "Damping"]({BODY: args.BODY});
+		}
+
+		bodySetDamping(args) {
+			const body = Scratch.Cast.toString(args.BODY);
+			const type = Scratch.Cast.toString(args.TYPE);
+			let v = {BODY: args.BODY};
+
+			v[type == "linear damping" ? "LINDAMP" : "ANGDAMP"] = args.DAMP;
+			
+			this["_bodySet" + (type == "linear damping" ? "Linear" : "Angular") + "Damping"](v);
 		}
 
 		bodyIsKinematic(args) {
@@ -3997,7 +3803,7 @@ embedded = true;
 			dBodyInitMass(bodies[body].body, mass);
 		}
 
-		geomGetPosition(args) {
+		_geomGetPosition(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 
 			if(!geoms[geom]) return [];
@@ -4007,7 +3813,7 @@ embedded = true;
 			return from_array([c[0], c[1], c[2]]);
 		}
 
-		geomSetPosition(args) {
+		_geomSetPosition(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 			const pos = [...to_f32array(args.POS)];
 
@@ -4016,7 +3822,7 @@ embedded = true;
 			dGeomSetPosition(geoms[geom].geom, pos[0], pos[1], pos[2]);
 		}
 
-		geomGetRotation(args) {
+		_geomGetRotation(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 
 			if(!geoms[geom]) return [];
@@ -4033,7 +3839,7 @@ embedded = true;
 			return from_array([r[0], r[1], r[2]]);
 		}
 
-		geomSetRotation(args) {
+		_geomSetRotation(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 			const rot = [...to_f32array(args.ROT)];
 
@@ -4050,7 +3856,7 @@ embedded = true;
 			Module._free(ptr);
 		}
 
-		geomGetQuaternion(args) {
+		_geomGetQuaternion(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 
 			if(!geoms[geom]) return [];
@@ -4067,7 +3873,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		geomSetQuaternion(args) {
+		_geomSetQuaternion(args) {
 			const geom = Scratch.Cast.toString(args.GEOM);
 			const quat = [...to_f32array(args.QUAT)];
 
@@ -4081,6 +3887,21 @@ embedded = true;
 			dGeomSetQuaternion(geoms[geom].geom, ptr);
 
 			Module._free(ptr);
+		}
+
+		geomGetArray(args) {
+			const type = Scratch.Cast.toString(args.TYPE);
+
+			return this["_geomGet" + bodygeom_menu_to_func(type)]({GEOM: args.GEOM});
+		}
+
+		geomSetArray(args) {
+			const type = Scratch.Cast.toString(args.TYPE);
+			let v = {GEOM: args.GEOM};
+
+			v[bodygeom_menu_to_field(type)] = args.ARRAY;
+
+			this["_geomSet" + bodygeom_menu_to_func(type)](v);
 		}
 
 		newJoint(args) {
@@ -4160,7 +3981,7 @@ embedded = true;
 			delete joints[joint];
 		}
 
-		jointGetPrimaryAnchor(args) {
+		_jointGetPrimaryAnchor(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return [];
@@ -4212,7 +4033,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		jointSetPrimaryAnchor(args) {
+		_jointSetPrimaryAnchor(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 			const anchor = [...to_f32array(args.ANCHOR)];
 
@@ -4256,7 +4077,7 @@ embedded = true;
 			m(joints[joint].joint, anchor[0], anchor[1], anchor[2]);
 		}
 
-		jointGetSecondaryAnchor(args) {
+		_jointGetSecondaryAnchor(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return [];
@@ -4302,7 +4123,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		jointSetSecondaryAnchor(args) {
+		_jointSetSecondaryAnchor(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 			const anchor = [...to_f32array(args.ANCHOR)];
 
@@ -4328,7 +4149,7 @@ embedded = true;
 			m(joints[joint].joint, anchor[0], anchor[1], anchor[2]);
 		}
 
-		jointGetPrimaryAxis(args) {
+		_jointGetPrimaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return [];
@@ -4380,7 +4201,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		jointSetPrimaryAxis(args) {
+		_jointSetPrimaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 			const axis = [...to_f32array(args.AXIS)];
 
@@ -4424,7 +4245,7 @@ embedded = true;
 			m(joints[joint].joint, axis[0], axis[1], axis[2]);
 		}
 
-		jointGetSecondaryAxis(args) {
+		_jointGetSecondaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return [];
@@ -4461,7 +4282,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		jointSetSecondaryAxis(args) {
+		_jointSetSecondaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 			const axis = [...to_f32array(args.AXIS)];
 
@@ -4490,7 +4311,7 @@ embedded = true;
 			m(joints[joint].joint, axis[0], axis[1], axis[2]);
 		}
 
-		jointGetTertiaryAxis(args) {
+		_jointGetTertiaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return [];
@@ -4515,7 +4336,7 @@ embedded = true;
 			return from_array(r);
 		}
 
-		jointSetTertiaryAxis(args) {
+		_jointSetTertiaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 			const axis = [...to_f32array(args.AXIS)];
 
@@ -4532,7 +4353,22 @@ embedded = true;
 			m(joints[joint].joint, axis[0], axis[1], axis[2]);
 		}
 
-		jointGetPrimaryAngle(args) {
+		jointGetArray(args) {
+			const type = Scratch.Cast.toString(args.TYPE);
+
+			return this["_jointGet" + joint_menu_to_func(type)]({JOINT: args.JOINT});
+		}
+
+		jointSetArray(args) {
+			const type = Scratch.Cast.toString(args.TYPE);
+			let v = {JOINT: args.JOINT};
+
+			v[joint_menu_to_field(type)] = args.ARRAY;
+
+			this["_jointSet" + joint_menu_to_func(type)](v);
+		}
+
+		_jointGetPrimaryAngle(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return 0;
@@ -4566,10 +4402,10 @@ embedded = true;
 			return m(joints[joint].type) * (180/Math.PI);
 		}
 
-		jointSetPrimaryAngle(args) {
+		_jointSetPrimaryAngle(args) {
 		}
 
-		jointGetSecondaryAngle(args) {
+		_jointGetSecondaryAngle(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
 			if (!joints[joint]) return 0;
@@ -4594,7 +4430,21 @@ embedded = true;
 			return m(joints[joint].type) * (180/Math.PI);
 		}
 
-		jointSetSecondaryAngle(args) {
+		_jointSetSecondaryAngle(args) {
+		}
+
+		jointGetAngle(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const type = Scratch.Cast.toString(args.TYPE);
+			
+			return this["_jointGet" + (type == "primary angle" ? "Primary" : "Secondary") + "Angle"]({JOINT: args.JOINT});
+		}
+
+		jointSetAngle(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const type = Scratch.Cast.toString(args.TYPE);
+			
+			this["_jointSet" + (type == "primary angle" ? "Primary" : "Secondary") + "Angle"]({JOINT: args.JOINT, ANGLE: args.ANGLE});
 		}
 
 		jointAddForce(args) {
