@@ -20,6 +20,7 @@
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomDestroy, dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
 	let dJointCreateAMotor, dJointCreateBall, dJointCreateDBall, dJointCreateDHinge, dJointCreateFixed, dJointCreateHinge, dJointCreateHinge2, dJointCreateLMotor, dJointCreatePiston, dJointCreatePlane2D, dJointCreatePR, dJointCreatePU, dJointCreateSlider, dJointCreateTransmission, dJointDestroy;
+	let dJointAttach, dJointEnable, dJointDisable, dJointIsEnabled, dJointSetData, dJointGetType, dJointSetFeedback, dJointSetBallAnchor, dJointGetBallAnchor, dJointGetBallAnchor2, dJointSetHingeAnchor, dJointSetHingeAxis, dJointGetHingeAnchor, dJointGetHingeAnchor2, dJointGetHingeAxis, dJointGetHingeAngle, dJointSetSliderAxis, dJointGetSliderAxis, dJointGetSliderPosition, dJointSetUniversalAnchor, dJointSetUniversalAxis1, dJointSetUniversalAxis2, dJointGetUniversalAnchor, dJointGetUniversalAnchor2, dJointGetUniversalAxis1, dJointGetUniversalAxis2, dJointGetUniversalAngle1, dJointGetUniversalAngle2, dJointGetUniversalAngles, dJointSetHinge2Anchor, dJointSetHinge2Axis1, dJointSetHinge2Axis2, dJointGetHinge2Anchor, dJointGetHinge2Anchor2, dJointGetHinge2Axis1, dJointGetHinge2Axis2, dJointGetHinge2Angle1, dJointSetPRAxis1, dJointGetPRAxis1, dJointSetPRAxis2, dJointGetPRAxis2, dJointSetPRAnchor, dJointGetPRAnchor, dJointGetPRPosition, dJointGetPUPosition, dJointSetPUAnchor, dJointGetPUAnchor, dJointSetPUAxis1, dJointGetPUAxis1, dJointSetPUAxis2, dJointGetPUAxis2, dJointSetPUAxis3, dJointGetPUAxis3, dJointSetPUAxisP, dJointGetPUAxisP, dJointGetPUAngles, dJointGetPUAngle1, dJointGetPUAngle2, dJointSetPistonAnchor, dJointGetPistonAnchor, dJointGetPistonAnchor2, dJointSetPistonAxis, dJointGetPistonAxis, dJointGetPistonPosition, dJointGetPistonAngle, dJointAddPistonForce, dJointSetFixed, dJointSetAMotorMode, dJointGetAMotorMode, dJointSetAMotorAxis, dJointGetAMotorAxis, dJointGetAMotorAxisRel, dJointSetAMotorAngle, dJointGetAMotorAngle, dJointSetLMotorAxis, dJointGetLMotorAxis, dJointAddHingeTorque, dJointAddUniversalTorques, dJointAddSliderForce, dJointAddHinge2Torques, dJointAddAMotorTorques;
 	let ode;
 	let embedded = false;
 	var ODEWASM;
@@ -1752,42 +1753,227 @@
 		}
 
 		jointGetPrimaryAnchor(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateBall:
+					m = dJointGetBallAnchor;
+					break;
+				case dJointCreateHinge:
+					m = dJointGetHingeAnchor;
+					break;
+				case dJointCreatePiston:
+					m = dJointGetPistonAnchor;
+					break;
+			}
+			if (!m) return [];
+			m(joints[joint].type, ptr);
+
+			const c = f64_view(ptr);
+
+			const r = [c[0], c[1], c[2]];
+
+			Module._free(ptr);
+
+			return from_array(r);
 		}
 
 		jointSetPrimaryAnchor(args) {
 		}
 
 		jointGetSecondaryAnchor(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateBall:
+					m = dJointGetBallAnchor2;
+					break;
+				case dJointCreateHinge:
+					m = dJointGetHingeAnchor2;
+					break;
+				case dJointCreatePiston:
+					m = dJointGetPistonAnchor2;
+					break;
+			}
+			if (!m) return [];
+			m(joints[joint].type, ptr);
+
+			const c = f64_view(ptr);
+
+			const r = [c[0], c[1], c[2]];
+
+			Module._free(ptr);
+
+			return from_array(r);
 		}
 
 		jointSetSecondaryAnchor(args) {
 		}
 
 		jointGetPrimaryAxis(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateHinge:
+					m = dJointGetHingeAxis;
+					break;
+				case dJointCreateAMotor:
+					m = dJointGetAMotorAxis;
+					break;
+				case dJointCreateLMotor:
+					m = dJointGetLMotorAxis;
+					break;
+				case dJointCreatePiston:
+					m = dJointGetPistonAxis;
+					break;
+				case dJointCreateSlider:
+					m = dJointGetSliderAxis;
+					break;
+				case dJointCreatePR:
+					m = dJointGetPRAxis1;
+					break;
+				case dJointCreatePU:
+					m = dJointGetPUAxis1;
+					break;
+			}
+			if (!m) return [];
+			m(joints[joint].type, ptr);
+
+			const c = f64_view(ptr);
+
+			const r = [c[0], c[1], c[2]];
+
+			Module._free(ptr);
+
+			return from_array(r);
 		}
 
 		jointSetPrimaryAxis(args) {
 		}
 
 		jointGetSecondaryAxis(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateHinge:
+					m = dJointGetHingeAxis2;
+					break;
+				case dJointCreatePR:
+					m = dJointGetPRAxis2;
+					break;
+				case dJointCreatePU:
+					m = dJointGetPUAxis2;
+					break;
+			}
+			if (!m) return [];
+			m(joints[joint].type, ptr);
+
+			const c = f64_view(ptr);
+
+			const r = [c[0], c[1], c[2]];
+
+			Module._free(ptr);
+
+			return from_array(r);
 		}
 
 		jointSetSecondaryAxis(args) {
 		}
 
 		jointGetTertiaryAxis(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreatePU:
+					m = dJointGetPUAxis3;
+					break;
+			}
+			if (!m) return [];
+			m(joints[joint].type, ptr);
+
+			const c = f64_view(ptr);
+
+			const r = [c[0], c[1], c[2]];
+
+			Module._free(ptr);
+
+			return from_array(r);
 		}
 
 		jointSetTertiaryAxis(args) {
 		}
 
 		jointGetPrimaryAngle(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateHinge:
+					m = dJointGetHingeAngle;
+					break;
+				case dJointCreateAMotor:
+					m = dJointGetAMotorAngle;
+					break;
+				case dJointCreatePiston:
+					m = dJointGetPistonAngle;
+					break;
+				case dJointCreatePU:
+					m = dJointGetPUAngle1;
+					break;
+			}
+			if (!m) return [];
+
+			return m(joints[joint].type, ptr) * (180/Math.PI);
 		}
 
 		jointSetPrimaryAngle(args) {
 		}
 
 		jointGetSecondaryAngle(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if (!joints[joint]) return [];
+
+			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreatePU:
+					m = dJointGetPUAngle2;
+					break;
+			}
+			if (!m) return [];
+
+			return m(joints[joint].type, ptr) * (180/Math.PI);
 		}
 
 		jointSetSecondaryAngle(args) {
