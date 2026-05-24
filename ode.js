@@ -1153,9 +1153,30 @@
 			const world = Scratch.Cast.toString(args.WORLD);
 			const gravity = to_f32array(args.GRAVITY);
 
-			if(!worlds[world]) return;
+			if(!worlds[world] || gravity.length != 3) return;
 
 			dWorldSetGravity(worlds[key].world, gravity[0], gravity[1], gravity[2]);
+		}
+
+		worldIsRaycastTouching(args) {
+			const world = Scratch.Cast.toString(args.WORLD);
+			const start = to_f32array(args.START);
+			const end = to_f32array(args.END);
+
+			if(!worlds[world] || start.length != 3 || end.length != 3) return false;
+
+			return Scratch.Cast.toBoolean(dRaycast(worlds[world].space, start[0], start[1], start[2], end[0], end[1], end[2]));
+		}
+
+		worldIsRaycastTouchingGeom(args) {
+			const world = Scratch.Cast.toString(args.WORLD);
+			const start = to_f32array(args.START);
+			const end = to_f32array(args.END);
+			const geom = Scratch.Cast.toString(args.GEOM);
+
+			if(!worlds[world] || start.length != 3 || end.length != 3 || !geoms[geom]) return false;
+
+			return Scratch.Cast.toBoolean(dRaycastGeom(worlds[world].space, start[0], start[1], start[2], end[0], end[1], end[2], geoms[geom].geom));
 		}
 
 		newBody(args) {

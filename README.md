@@ -42,7 +42,7 @@ You **MUST** move or rotate after associating the body with geometry, otherwise 
  - [ ] Joint stuffs
  - [x] Force stuffs
  - [x] Damping stuffs (Maybe default values?)
- - [ ] Ray (and raycast)
+ - [x] Raycast
  - [x] Gravity function
  - [x] Mass stuffs
  - [ ] Trimesh
