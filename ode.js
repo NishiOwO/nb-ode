@@ -20,7 +20,7 @@
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomDestroy, dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
 	let dJointCreateBall, dJointCreateDBall, dJointCreateDHinge, dJointCreateFixed, dJointCreateHinge, dJointCreateHinge2, dJointCreateLMotor, dJointCreatePiston, dJointCreatePlane2D, dJointCreatePR, dJointCreatePU, dJointCreateSlider, dJointCreateTransmission, dJointCreateUniversal, dJointDestroy;
-	let dJointAttach, dJointSetBallAnchor, dJointGetBallAnchor, dJointGetBallAnchor2, dJointSetHingeAnchor, dJointSetHingeAxis, dJointGetHingeAnchor, dJointGetHingeAnchor2, dJointGetHingeAxis, dJointGetHingeAngle, dJointSetSliderAxis, dJointGetSliderAxis, dJointSetUniversalAnchor, dJointSetUniversalAxis1, dJointSetUniversalAxis2, dJointGetUniversalAnchor, dJointGetUniversalAnchor2, dJointGetUniversalAxis1, dJointGetUniversalAxis2, dJointGetUniversalAngle1, dJointGetUniversalAngle2, dJointSetHinge2Anchor, dJointSetHinge2Axis1, dJointSetHinge2Axis2, dJointGetHinge2Anchor, dJointGetHinge2Anchor2, dJointGetHinge2Axis1, dJointGetHinge2Axis2, dJointGetHinge2Angle1, dJointSetPRAxis1, dJointGetPRAxis1, dJointSetPRAxis2, dJointGetPRAxis2, dJointSetPRAnchor, dJointGetPRAnchor, dJointSetPUAnchor, dJointGetPUAnchor, dJointSetPUAxis1, dJointGetPUAxis1, dJointSetPUAxis2, dJointGetPUAxis2, dJointSetPUAxis3, dJointGetPUAxis3, dJointGetPUAngle1, dJointGetPUAngle2, dJointSetPistonAnchor, dJointGetPistonAnchor, dJointGetPistonAnchor2, dJointSetPistonAxis, dJointGetPistonAxis, dJointGetPistonAngle, dJointAddPistonForce, dJointSetLMotorAxis, dJointGetLMotorAxis, dJointAddHingeTorque, dJointAddUniversalTorques, dJointAddSliderForce, dJointAddHinge2Torques;
+	let dJointAttach, dJointSetBallAnchor, dJointGetBallAnchor, dJointGetBallAnchor2, dJointSetHingeAnchor, dJointSetHingeAxis, dJointGetHingeAnchor, dJointGetHingeAnchor2, dJointGetHingeAxis, dJointGetHingeAngle, dJointSetSliderAxis, dJointGetSliderAxis, dJointSetUniversalAnchor, dJointSetUniversalAxis1, dJointSetUniversalAxis2, dJointGetUniversalAnchor, dJointGetUniversalAnchor2, dJointGetUniversalAxis1, dJointGetUniversalAxis2, dJointGetUniversalAngle1, dJointGetUniversalAngle2, dJointSetHinge2Anchor, dJointSetHinge2Axis1, dJointSetHinge2Axis2, dJointGetHinge2Anchor, dJointGetHinge2Anchor2, dJointGetHinge2Axis1, dJointGetHinge2Axis2, dJointGetHinge2Angle1, dJointSetPRAxis1, dJointGetPRAxis1, dJointSetPRAxis2, dJointGetPRAxis2, dJointSetPRAnchor, dJointGetPRAnchor, dJointSetPUAnchor, dJointGetPUAnchor, dJointSetPUAxis1, dJointGetPUAxis1, dJointSetPUAxis2, dJointGetPUAxis2, dJointSetPUAxis3, dJointGetPUAxis3, dJointGetPUAngle1, dJointGetPUAngle2, dJointSetPistonAnchor, dJointGetPistonAnchor, dJointGetPistonAnchor2, dJointSetPistonAxis, dJointGetPistonAxis, dJointGetPistonAngle, dJointAddPistonForce, dJointSetLMotorAxis, dJointGetLMotorAxis, dJointAddHingeTorque, dJointAddUniversalTorques, dJointAddSliderForce, dJointAddHinge2Torques, dJointGetTransmissionAnchor1, dJointGetDBallAnchor1, dJointGetDHingeAnchor1, dJointSetTransmissionAnchor1, dJointSetDBallAnchor1, dJointSetDHingeAnchor1, dJointGetTransmissionAnchor2, dJointGetDBallAnchor2, dJointGetDHingeAnchor2, dJointSetBallAnchor2, dJointSetTransmissionAnchor2, dJointSetDBallAnchor2, dJointSetDHingeAnchor2, dJointGetTransmissionAxis1, dJointGetDHingeAxis, dJointSetTransmissionAxis1, dJointSetDHingeAxis, dJointGetTransmissionAxis2, dJointSetTransmissionAxis2, dJointGetPRAngle, dJointGetTransmissionAngle1, dJointGetHingeAngle2, dJointGetTransmissionAngle2, dJointAddPRTorque, dJointAddPUTorques;
 	let ode;
 	let embedded = false;
 	var ODEWASM;
@@ -120,6 +120,89 @@
 	dJointCreateTransmission = Module.cwrap("dJointCreateTransmission", "number", ["number", "number"]);
 	dJointCreateUniversal = Module.cwrap("dJointCreateUniversal", "number", ["number", "number"]);
 	dJointDestroy = Module.cwrap("dJointDestroy", "number", ["number", "number"]);
+
+		dJointGetTransmissionAnchor1 = Module.cwrap("dJointGetTransmissionAnchor1", null, ["number", "number"]);
+	dJointGetDBallAnchor1 = Module.cwrap("dJointGetDBallAnchor1", null, ["number", "number"]);
+	dJointGetDHingeAnchor1 = Module.cwrap("dJointGetDHingeAnchor1", null, ["number", "number"]);
+	dJointSetTransmissionAnchor1 = Module.cwrap("dJointSetTransmissionAnchor1", null, ["number", "number", "number", "number"]);
+	dJointSetDBallAnchor1 = Module.cwrap("dJointSetDBallAnchor1", null, ["number", "number", "number", "number"]);
+	dJointSetDHingeAnchor1 = Module.cwrap("dJointSetDHingeAnchor1", null, ["number", "number", "number", "number"]);
+	dJointGetTransmissionAnchor2 = Module.cwrap("dJointGetTransmissionAnchor2", null, ["number", "number"]);
+	dJointGetDBallAnchor2 = Module.cwrap("dJointGetDBallAnchor2", null, ["number", "number"]);
+	dJointGetDHingeAnchor2 = Module.cwrap("dJointGetDHingeAnchor2", null, ["number", "number"]);
+	dJointSetBallAnchor2 = Module.cwrap("dJointSetBallAnchor2", null, ["number", "number", "number", "number"]);
+	dJointSetTransmissionAnchor2 = Module.cwrap("dJointSetTransmissionAnchor2", null, ["number", "number", "number", "number"]);
+	dJointSetDBallAnchor2 = Module.cwrap("dJointSetDBallAnchor2", null, ["number", "number", "number", "number"]);
+	dJointSetDHingeAnchor2 = Module.cwrap("dJointSetDHingeAnchor2", null, ["number", "number", "number", "number"]);
+	dJointGetTransmissionAxis1 = Module.cwrap("dJointGetTransmissionAxis1", null, ["number", "number"]);
+	dJointGetDHingeAxis = Module.cwrap("dJointGetDHingeAxis", null, ["number", "number"]);
+	dJointSetTransmissionAxis1 = Module.cwrap("dJointSetTransmissionAxis1", null, ["number", "number", "number", "number"]);
+	dJointSetDHingeAxis = Module.cwrap("dJointSetDHingeAxis", null, ["number", "number", "number", "number"]);
+	dJointGetTransmissionAxis2 = Module.cwrap("dJointGetTransmissionAxis2", null, ["number", "number"]);
+	dJointSetTransmissionAxis2 = Module.cwrap("dJointSetTransmissionAxis2", null, ["number", "number", "number", "number"]);
+	dJointGetPRAngle = Module.cwrap("dJointGetPRAngle", "number", ["number"]);
+	dJointGetTransmissionAngle1 = Module.cwrap("dJointGetTransmissionAngle1", "number", ["number"]);
+	dJointGetTransmissionAngle2 = Module.cwrap("dJointGetTransmissionAngle2", "number", ["number"]);
+	dJointAddPRTorque = Module.cwrap("dJointAddPRTorque", null, ["number", "number"]);
+	dJointAddPUTorques = Module.cwrap("dJointAddPUTorques", null, ["number", "number", "number"]);
+	dJointAttach = Module.cwrap("dJointAttach", null, ["number", "number", "number"]);
+	dJointSetBallAnchor = Module.cwrap("dJointSetBallAnchor", null, ["number", "number", "number", "number"]);
+	dJointGetBallAnchor = Module.cwrap("dJointGetBallAnchor", null, ["number", "number"]);
+	dJointGetBallAnchor2 = Module.cwrap("dJointGetBallAnchor2", null, ["number", "number"]);
+	dJointSetHingeAnchor = Module.cwrap("dJointSetHingeAnchor", null, ["number", "number", "number", "number"]);
+	dJointSetHingeAxis = Module.cwrap("dJointSetHingeAxis", null, ["number", "number", "number", "number"]);
+	dJointGetHingeAnchor = Module.cwrap("dJointGetHingeAnchor", null, ["number", "number"]);
+	dJointGetHingeAnchor2 = Module.cwrap("dJointGetHingeAnchor2", null, ["number", "number"]);
+	dJointGetHingeAxis = Module.cwrap("dJointGetHingeAxis", null, ["number", "number"]);
+	dJointGetHingeAngle = Module.cwrap("dJointGetHingeAngle", "number", ["number"]);
+	dJointSetSliderAxis = Module.cwrap("dJointSetSliderAxis", null, ["number", "number", "number", "number"]);
+	dJointGetSliderAxis = Module.cwrap("dJointGetSliderAxis", null, ["number", "number"]);
+	dJointSetUniversalAnchor = Module.cwrap("dJointSetUniversalAnchor", null, ["number", "number", "number", "number"]);
+	dJointSetUniversalAxis1 = Module.cwrap("dJointSetUniversalAxis1", null, ["number", "number", "number", "number"]);
+	dJointSetUniversalAxis2 = Module.cwrap("dJointSetUniversalAxis2", null, ["number", "number", "number", "number"]);
+	dJointGetUniversalAnchor = Module.cwrap("dJointGetUniversalAnchor", null, ["number", "number"]);
+	dJointGetUniversalAnchor2 = Module.cwrap("dJointGetUniversalAnchor2", null, ["number", "number"]);
+	dJointGetUniversalAxis1 = Module.cwrap("dJointGetUniversalAxis1", null, ["number", "number"]);
+	dJointGetUniversalAxis2 = Module.cwrap("dJointGetUniversalAxis2", null, ["number", "number"]);
+	dJointGetUniversalAngle1 = Module.cwrap("dJointGetUniversalAngle1", "number", ["number"]);
+	dJointGetUniversalAngle2 = Module.cwrap("dJointGetUniversalAngle2", "number", ["number"]);
+	dJointSetHinge2Anchor = Module.cwrap("dJointSetHinge2Anchor", null, ["number", "number", "number", "number"]);
+	dJointSetHinge2Axis1 = Module.cwrap("dJointSetHinge2Axis1", null, ["number", "number", "number", "number"]);
+	dJointSetHinge2Axis2 = Module.cwrap("dJointSetHinge2Axis2", null, ["number", "number", "number", "number"]);
+	dJointGetHinge2Anchor = Module.cwrap("dJointGetHinge2Anchor", null, ["number", "number"]);
+	dJointGetHinge2Anchor2 = Module.cwrap("dJointGetHinge2Anchor2", null, ["number", "number"]);
+	dJointGetHinge2Axis1 = Module.cwrap("dJointGetHinge2Axis1", null, ["number", "number"]);
+	dJointGetHinge2Axis2 = Module.cwrap("dJointGetHinge2Axis2", null, ["number", "number"]);
+	dJointGetHinge2Angle1 = Module.cwrap("dJointGetHinge2Angle1", "number", ["number"]);
+	dJointSetPRAxis1 = Module.cwrap("dJointSetPRAxis1", null, ["number", "number", "number", "number"]);
+	dJointGetPRAxis1 = Module.cwrap("dJointGetPRAxis1", null, ["number", "number"]);
+	dJointSetPRAxis2 = Module.cwrap("dJointSetPRAxis2", null, ["number", "number", "number", "number"]);
+	dJointGetPRAxis2 = Module.cwrap("dJointGetPRAxis2", null, ["number", "number"]);
+	dJointSetPRAnchor = Module.cwrap("dJointSetPRAnchor", null, ["number", "number", "number", "number"]);
+	dJointGetPRAnchor = Module.cwrap("dJointGetPRAnchor", null, ["number", "number"]);
+	dJointSetPUAnchor = Module.cwrap("dJointSetPUAnchor", null, ["number", "number", "number", "number"]);
+	dJointGetPUAnchor = Module.cwrap("dJointGetPUAnchor", null, ["number", "number"]);
+	dJointSetPUAxis1 = Module.cwrap("dJointSetPUAxis1", null, ["number", "number", "number", "number"]);
+	dJointGetPUAxis1 = Module.cwrap("dJointGetPUAxis1", null, ["number", "number"]);
+	dJointSetPUAxis2 = Module.cwrap("dJointSetPUAxis2", null, ["number", "number", "number", "number"]);
+	dJointGetPUAxis2 = Module.cwrap("dJointGetPUAxis2", null, ["number", "number"]);
+	dJointSetPUAxis3 = Module.cwrap("dJointSetPUAxis3", null, ["number", "number", "number", "number"]);
+	dJointGetPUAxis3 = Module.cwrap("dJointGetPUAxis3", null, ["number", "number"]);
+	dJointGetPUAngle1 = Module.cwrap("dJointGetPUAngle1", "number", ["number"]);
+	dJointGetPUAngle2 = Module.cwrap("dJointGetPUAngle2", "number", ["number"]);
+	dJointSetPistonAnchor = Module.cwrap("dJointSetPistonAnchor", null, ["number", "number", "number", "number"]);
+	dJointGetPistonAnchor = Module.cwrap("dJointGetPistonAnchor", null, ["number", "number"]);
+	dJointGetPistonAnchor2 = Module.cwrap("dJointGetPistonAnchor2", null, ["number", "number"]);
+	dJointSetPistonAxis = Module.cwrap("dJointSetPistonAxis", null, ["number", "number", "number", "number"]);
+	dJointGetPistonAxis = Module.cwrap("dJointGetPistonAxis", null, ["number", "number"]);
+	dJointGetPistonAngle = Module.cwrap("dJointGetPistonAngle", "number", ["number"]);
+	dJointAddPistonForce = Module.cwrap("dJointAddPistonForce", null, ["number", "number"]);
+	dJointSetLMotorAxis = Module.cwrap("dJointSetLMotorAxis", null, ["number", "number", "number", "number", "number", "number"]);
+	dJointGetLMotorAxis = Module.cwrap("dJointGetLMotorAxis", null, ["number", "number", "number"]);
+	dJointAddHingeTorque = Module.cwrap("dJointAddHingeTorque", null, ["number", "number"]);
+	dJointAddUniversalTorques = Module.cwrap("dJointAddUniversalTorques", null, ["number", "number", "number"]);
+	dJointAddSliderForce = Module.cwrap("dJointAddSliderForce", null, ["number", "number"]);
+	dJointAddHinge2Torques = Module.cwrap("dJointAddHinge2Torques", null, ["number", "number", "number"]);
 
 	function new_obj_key(obj){
 		let n;
@@ -1782,13 +1865,13 @@
 					m = dJointGetPUAnchor;
 					break;
 				case dJointCreateTransmission:
-					m = dJointGetTransmissionAnchor;
+					m = dJointGetTransmissionAnchor1;
 					break;
 				case dJointCreateDBall:
-					m = dJointGetDBallAnchor;
+					m = dJointGetDBallAnchor1;
 					break;
 				case dJointCreateDHinge:
-					m = dJointGetDHingeAnchor;
+					m = dJointGetDHingeAnchor1;
 					break;
 			}
 			if (!m) return [];
@@ -2220,7 +2303,7 @@
 					m = dJointAddHingeTorque;
 					break;
 				case dJointCreatePR:
-					m = dJointAddPRToeque;
+					m = dJointAddPRTorque;
 					break;
 			}
 			if (!m) return;

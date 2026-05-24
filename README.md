@@ -39,7 +39,7 @@ You **MUST** move or rotate after associating the body with geometry, otherwise 
 
 ## TODO
 
- - [ ] Joint stuffs
+ - [x] Joint stuffs
  - [x] Force stuffs
  - [x] Damping stuffs (Maybe default values?)
  - [x] Raycast
