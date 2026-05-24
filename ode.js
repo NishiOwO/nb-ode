@@ -943,7 +943,7 @@
 						}
 					},
 					{
-						opcode: "jointGetSeocndaryAnchor",
+						opcode: "jointGetSecondaryAnchor",
 						blockType: blk_array,
 						disableMonitor: true,
 						text: Scratch.translate(
@@ -957,7 +957,7 @@
 						}
 					},
 					{
-						opcode: "jointSetSeocndaryAnchor",
+						opcode: "jointSetSecondaryAnchor",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
 							"set secondary anchor of joint [JOINT] to [ANCHOR]"
@@ -1005,7 +1005,7 @@
 						}
 					},
 					{
-						opcode: "jointGetSeocndaryAxis",
+						opcode: "jointGetSecondaryAxis",
 						blockType: blk_array,
 						disableMonitor: true,
 						text: Scratch.translate(
@@ -1019,10 +1019,41 @@
 						}
 					},
 					{
-						opcode: "jointSetSeocndaryAxis",
+						opcode: "jointSetSecondaryAxis",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
 							"set secondary axis of joint [JOINT] to [AXIS]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							AXIS: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0])
+							}
+						}
+					},
+					{
+						opcode: "jointGetTertiaryAxis",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get tertiary axis of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetTertiaryAxis",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set tertiary axis of joint [JOINT] to [AXIS]"
 						),
 						arguments: {
 							JOINT: {
@@ -1067,7 +1098,7 @@
 						}
 					},
 					{
-						opcode: "jointGetSeocndaryAngle",
+						opcode: "jointGetSecondaryAngle",
 						blockType: Scratch.BlockType.REPORTER,
 						disableMonitor: true,
 						text: Scratch.translate(
@@ -1081,7 +1112,7 @@
 						}
 					},
 					{
-						opcode: "jointSetSeocndaryAngle",
+						opcode: "jointSetSecondaryAngle",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
 							"set secondary angle of joint [JOINT] to [ANGLE]"
@@ -1094,6 +1125,57 @@
 							ANGLE: {
 								type: Scratch.ArgumentType.NUMBER,
 								defaultValue: 0
+							}
+						}
+					},
+					{
+						opcode: "jointAddForce",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"add force [FORCE] to joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							FORCE: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0
+							}
+						}
+					},
+					{
+						opcode: "jointAddTorque",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"add torque [TORQUE] to joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							TORQUE: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0
+							}
+						}
+					},
+					{
+						opcode: "jointAddTorques",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"add torques [TORQUES] to joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							TORQUES: {
+								type: arg_array,
+								defaultValue: [0]
 							}
 						}
 					},
@@ -1675,10 +1757,10 @@
 		jointSetPrimaryAnchor(args) {
 		}
 
-		jointGetSeocndaryAnchor(args) {
+		jointGetSecondaryAnchor(args) {
 		}
 
-		jointSetSeocndaryAnchor(args) {
+		jointSetSecondaryAnchor(args) {
 		}
 
 		jointGetPrimaryAxis(args) {
@@ -1687,10 +1769,16 @@
 		jointSetPrimaryAxis(args) {
 		}
 
-		jointGetSeocndaryAxis(args) {
+		jointGetSecondaryAxis(args) {
 		}
 
-		jointSetSeocndaryAxis(args) {
+		jointSetSecondaryAxis(args) {
+		}
+
+		jointGetTertiaryAxis(args) {
+		}
+
+		jointSetTertiaryAxis(args) {
 		}
 
 		jointGetPrimaryAngle(args) {
@@ -1699,10 +1787,19 @@
 		jointSetPrimaryAngle(args) {
 		}
 
-		jointGetSeocndaryAngle(args) {
+		jointGetSecondaryAngle(args) {
 		}
 
-		jointSetSeocndaryAngle(args) {
+		jointSetSecondaryAngle(args) {
+		}
+
+		jointAddForce(args) {
+		}
+
+		jointAddTorque(args) {
+		}
+
+		jointAddTorques(args) {
 		}
 	};
 
