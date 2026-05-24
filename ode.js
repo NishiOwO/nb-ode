@@ -19,8 +19,8 @@
 	let dBodyCreate, dBodyDestroy, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion, dBodyAddForce, dBodyGetForce, dBodySetForce, dBodyGetLinearDamping, dBodyGetAngularDamping, dBodySetLinearDamping, dBodySetAngularDamping, dBodyIsKinematic, dBodySetKinematic, dBodySetDynamic;
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomDestroy, dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
-	let dJointCreateAMotor, dJointCreateBall, dJointCreateDBall, dJointCreateDHinge, dJointCreateFixed, dJointCreateHinge, dJointCreateHinge2, dJointCreateLMotor, dJointCreatePiston, dJointCreatePlane2D, dJointCreatePR, dJointCreatePU, dJointCreateSlider, dJointCreateTransmission, dJointDestroy;
-	let dJointAttach, dJointEnable, dJointDisable, dJointIsEnabled, dJointSetData, dJointGetType, dJointSetFeedback, dJointSetBallAnchor, dJointGetBallAnchor, dJointGetBallAnchor2, dJointSetHingeAnchor, dJointSetHingeAxis, dJointGetHingeAnchor, dJointGetHingeAnchor2, dJointGetHingeAxis, dJointGetHingeAngle, dJointSetSliderAxis, dJointGetSliderAxis, dJointGetSliderPosition, dJointSetUniversalAnchor, dJointSetUniversalAxis1, dJointSetUniversalAxis2, dJointGetUniversalAnchor, dJointGetUniversalAnchor2, dJointGetUniversalAxis1, dJointGetUniversalAxis2, dJointGetUniversalAngle1, dJointGetUniversalAngle2, dJointGetUniversalAngles, dJointSetHinge2Anchor, dJointSetHinge2Axis1, dJointSetHinge2Axis2, dJointGetHinge2Anchor, dJointGetHinge2Anchor2, dJointGetHinge2Axis1, dJointGetHinge2Axis2, dJointGetHinge2Angle1, dJointSetPRAxis1, dJointGetPRAxis1, dJointSetPRAxis2, dJointGetPRAxis2, dJointSetPRAnchor, dJointGetPRAnchor, dJointGetPRPosition, dJointGetPUPosition, dJointSetPUAnchor, dJointGetPUAnchor, dJointSetPUAxis1, dJointGetPUAxis1, dJointSetPUAxis2, dJointGetPUAxis2, dJointSetPUAxis3, dJointGetPUAxis3, dJointSetPUAxisP, dJointGetPUAxisP, dJointGetPUAngles, dJointGetPUAngle1, dJointGetPUAngle2, dJointSetPistonAnchor, dJointGetPistonAnchor, dJointGetPistonAnchor2, dJointSetPistonAxis, dJointGetPistonAxis, dJointGetPistonPosition, dJointGetPistonAngle, dJointAddPistonForce, dJointSetFixed, dJointSetAMotorMode, dJointGetAMotorMode, dJointSetAMotorAxis, dJointGetAMotorAxis, dJointGetAMotorAxisRel, dJointSetAMotorAngle, dJointGetAMotorAngle, dJointSetLMotorAxis, dJointGetLMotorAxis, dJointAddHingeTorque, dJointAddUniversalTorques, dJointAddSliderForce, dJointAddHinge2Torques, dJointAddAMotorTorques;
+	let dJointCreateBall, dJointCreateDBall, dJointCreateDHinge, dJointCreateFixed, dJointCreateHinge, dJointCreateHinge2, dJointCreateLMotor, dJointCreatePiston, dJointCreatePlane2D, dJointCreatePR, dJointCreatePU, dJointCreateSlider, dJointCreateTransmission, dJointCreateUniversal, dJointDestroy;
+	let dJointAttach, dJointSetBallAnchor, dJointGetBallAnchor, dJointGetBallAnchor2, dJointSetHingeAnchor, dJointSetHingeAxis, dJointGetHingeAnchor, dJointGetHingeAnchor2, dJointGetHingeAxis, dJointGetHingeAngle, dJointSetSliderAxis, dJointGetSliderAxis, dJointSetUniversalAnchor, dJointSetUniversalAxis1, dJointSetUniversalAxis2, dJointGetUniversalAnchor, dJointGetUniversalAnchor2, dJointGetUniversalAxis1, dJointGetUniversalAxis2, dJointGetUniversalAngle1, dJointGetUniversalAngle2, dJointSetHinge2Anchor, dJointSetHinge2Axis1, dJointSetHinge2Axis2, dJointGetHinge2Anchor, dJointGetHinge2Anchor2, dJointGetHinge2Axis1, dJointGetHinge2Axis2, dJointGetHinge2Angle1, dJointSetPRAxis1, dJointGetPRAxis1, dJointSetPRAxis2, dJointGetPRAxis2, dJointSetPRAnchor, dJointGetPRAnchor, dJointSetPUAnchor, dJointGetPUAnchor, dJointSetPUAxis1, dJointGetPUAxis1, dJointSetPUAxis2, dJointGetPUAxis2, dJointSetPUAxis3, dJointGetPUAxis3, dJointGetPUAngle1, dJointGetPUAngle2, dJointSetPistonAnchor, dJointGetPistonAnchor, dJointGetPistonAnchor2, dJointSetPistonAxis, dJointGetPistonAxis, dJointGetPistonAngle, dJointAddPistonForce, dJointSetLMotorAxis, dJointGetLMotorAxis, dJointAddHingeTorque, dJointAddUniversalTorques, dJointAddSliderForce, dJointAddHinge2Torques;
 	let ode;
 	let embedded = false;
 	var ODEWASM;
@@ -105,7 +105,6 @@
 	dGeomGetQuaternion = Module.cwrap("dGeomGetQuaternion", null, ["number", "number"]);
 	dGeomSetQuaternion = Module.cwrap("dGeomSetQuaternion", null, ["number", "number"]);
 
-	dJointCreateAMotor = Module.cwrap("dJointCreateAMotor", "number", ["number", "number"]);
 	dJointCreateBall = Module.cwrap("dJointCreateBall", "number", ["number", "number"]);
 	dJointCreateDBall = Module.cwrap("dJointCreateDBall", "number", ["number", "number"]);
 	dJointCreateDHinge = Module.cwrap("dJointCreateDHinge", "number", ["number", "number"]);
@@ -119,6 +118,7 @@
 	dJointCreatePU = Module.cwrap("dJointCreatePU", "number", ["number", "number"]);
 	dJointCreateSlider = Module.cwrap("dJointCreateSlider", "number", ["number", "number"]);
 	dJointCreateTransmission = Module.cwrap("dJointCreateTransmission", "number", ["number", "number"]);
+	dJointCreateUniversal = Module.cwrap("dJointCreateUniversal", "number", ["number", "number"]);
 	dJointDestroy = Module.cwrap("dJointDestroy", "number", ["number", "number"]);
 
 	function new_obj_key(obj){
@@ -196,10 +196,6 @@
 		];
 	}
 
-	function new_mass(){
-		return Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * (1 + 4 + 4 * 3));
-	}
-
 	const blockIconURI = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB2aWV3Qm94PSIwIDAgMzIuMjEyNDM5IDMyLjIxMjQzOSIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0ic3ZnMSIKICAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIKICAgc29kaXBvZGk6ZG9jbmFtZT0ib2RlbG9nby5zdmciCiAgIGlua3NjYXBlOnZlcnNpb249IjEuNC4yIChmNDMyN2Y0LCAyMDI1LTA1LTEzKSIKICAgd2lkdGg9IjMyLjIxMjQ0IgogICBoZWlnaHQ9IjMyLjIxMjQ0IgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzb2RpcG9kaTpuYW1lZHZpZXcKICAgICBpZD0ibmFtZWR2aWV3MSIKICAgICBwYWdlY29sb3I9IiNmZmZmZmYiCiAgICAgYm9yZGVyY29sb3I9IiMwMDAwMDAiCiAgICAgYm9yZGVyb3BhY2l0eT0iMC4yNSIKICAgICBpbmtzY2FwZTpzaG93cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICAgIGlua3NjYXBlOnBhZ2VjaGVja2VyYm9hcmQ9IjAiCiAgICAgaW5rc2NhcGU6ZGVza2NvbG9yPSIjZDFkMWQxIgogICAgIGlua3NjYXBlOnpvb209IjEzLjE4MzkyNSIKICAgICBpbmtzY2FwZTpjeD0iNDYuNjA5NzkyIgogICAgIGlua3NjYXBlOmN5PSIyMy4xNzIxNTkiCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxOTIwIgogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9IjExMzciCiAgICAgaW5rc2NhcGU6d2luZG93LXg9Ii04IgogICAgIGlua3NjYXBlOndpbmRvdy15PSItOCIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9ImxheWVyMSIgLz48ZGVmcwogICAgIGlkPSJkZWZzMSI+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDExIj48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTEiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDEyIj48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTIiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDEzIj48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTMiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDE0Ij48Y2lyY2xlCiAgICAgICAgIHN0eWxlPSJmaWxsOiNlYTY4MTk7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjAuMjcyOTcxIgogICAgICAgICBpZD0iY2lyY2xlMTQiCiAgICAgICAgIGNsaXAtcGF0aD0ibm9uZSIKICAgICAgICAgcj0iMTYuMTA2MjIiCiAgICAgICAgIGN5PSIxMzQuOTIzMzIiCiAgICAgICAgIGN4PSIzOS42MzU3IiAvPjwvY2xpcFBhdGg+PGNsaXBQYXRoCiAgICAgICBjbGlwUGF0aFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIGlkPSJjbGlwUGF0aDEwIj48cGF0aAogICAgICAgICBzdHlsZT0iYmFzZWxpbmUtc2hpZnQ6YmFzZWxpbmU7ZGlzcGxheTpub25lO292ZXJmbG93OnZpc2libGU7b3BhY2l0eToxO3ZlY3Rvci1lZmZlY3Q6bm9uZTtmaWxsOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjE7c3Ryb2tlLWxpbmVjYXA6c3F1YXJlO3N0cm9rZS1saW5lam9pbjpyb3VuZDtlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlO3N0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MSIKICAgICAgICAgZD0ibSA0MC42OTUzMSwxMTcuOTI5NjkgLTAuNDE3OTY3LDAuOTA4MiAwLjQ1NTA3OSwwLjIwODk5IGMgMCwwIDEuNjQyNDg4LDAuNzQwMTMgMy4zOTY0ODIsMy4yMjQ2IDEuMzc0MjUzLDEuOTQ2NTggMi43NTQ3NTgsNS4wMDYxMSAzLjM1OTM3Niw5LjU0MTAyIC0zLjI0NTExMiwtMC4zNzYyNyAtNS42NDkxNTMsLTIuNjE3NzYgLTguNzk2ODc2LC00Ljg5ODQ0IGEgMC41MDAwNSwwLjUwMDA1IDAgMCAwIC0wLjAwMzksLTAuMDAyIGMgLTQuNTU4MDA0LC0zLjI1OTYyIC04LjEyMTQ3MiwtNC4yMDk3MiAtMTAuMzc1LC00LjI3NTM5IGwgLTAuNDk5OTk5LC0wLjAxNTYgLTAuMDI5MywxIDAuNSwwLjAxNTYgYyAyLjAwMTc5MiwwLjA1ODMgNS4zOTIzNjEsMC45MTg0OSA5LjgyNDIxOSw0LjA4Nzg5IDMuMTI1NzE1LDIuMjY1MjkgNS43MzkzNDgsNC43NjYyIDkuNDY0ODQ1LDUuMTA5MzcgMC4wNzc5NiwwLjc1ODA2IDAuMTU5MDIxLDEuNTA4MDggMC4xODk0NTIsMi4zNDc2NiAtNi41NDY2OTksMC4yNjcxOCAtMTQuNjMwODY1LDAuMzExMjYgLTI0LjU0NDkyMSwtMC42MjEwOSBsIC0wLjQ5ODA0NywtMC4wNDY5IC0wLjA5Mzc1LDAuOTk2MSAwLjQ5ODA0NiwwLjA0NjkgYyA5Ljk2NTk4MiwwLjkzNzI0IDE4LjA4NjQ0MSwwLjg5Mjk5IDI0LjY4MTY0LDAuNjIzMDUgMC4wMjM2LDAuOTMwMzggLTAuMDM4NjcsMS43ODQxNyAtMC4xMjMwNDQsMi42MTcxOCAtMS42NzEzMjcsMC4xNzQzNyAtMy4xNDE2NjIsMC42OTE5OCAtNC41MDM5MDksMS41IC0xLjU4NDAyMywwLjkzOTU4IC0zLjEwNDEwNywyLjE1MDU3IC00LjkzOTQ1MiwzLjM1MTU3IGEgMC41MDAwNSwwLjUwMDA1IDAgMCAwIC0wLjAwMiwwLjAwMiBjIC00LjM0MzczNCwyLjg3NDI2IC03LjU3NzUxOSwyLjY4Njc1IC05Ljc0ODA0OCwyLjc1IGwgLTAuNDk5OTk5LDAuMDEzNyAwLjAyOTMsMSAwLjUsLTAuMDEzNyBjIDIuMDg0NDE2LC0wLjA2MDcgNS43MTQ1MzUsMC4wOTkxIDEwLjI2OTUzMSwtMi45MTQwNiBsIDAuMDAyLC0wLjAwMiBjIDEuODc5NDEsLTEuMjMwMDIgMy4zOTk5MzksLTIuNDM5MjcgNC44OTg0MzcsLTMuMzI4MTIgMS4yMzI3NjMsLTAuNzMxMjIgMi40ODc1MDYsLTEuMTY1NDIgMy45MDAzOTEsLTEuMzQzNzUgLTEuMTg2MjE5LDcuNzEwNCAtNi41NDg4MjgsMTAuOTcwNyAtNi41NDg4MjgsMTAuOTcwNyBsIC0wLjQyNTc4MiwwLjI1OTc3IDAuNTIxNDg2LDAuODUzNTEgMC40MjU3ODIsLTAuMjU5NzYgYyAwLDAgNS44ODg3NzUsLTMuNjM5NzggNy4wNzAzMTEsLTExLjk0MzM2IDEuMTcxNDQ2LDAuMDgwNiAxLjk2OTc1OCwwLjQxOTgyIDIuNTA1ODYsMC44OTg0NCAwLjU2NjM0MSwwLjUwNTYxIDAuODg1NywxLjE2NzI1IDEuMDU4NTkyLDEuODU1NDcgMC4zNDU3ODgsMS4zNzY0MiAwLjA2ODM2LDIuNzc3MzQgMC4wNjgzNiwyLjc3NzM0IGwgLTAuMTAxNTYzLDAuNDg4MjggMC45Nzg1MTYsMC4yMDMxMyAwLjEwMTU2MSwtMC40ODgyOSBjIDAsMCAwLjMzODQxMiwtMS41NzIzOCAtMC4wNzYxNywtMy4yMjI2NSAtMC4yMDcyOTMsLTAuODI1MTQgLTAuNjEyMDE1LC0xLjY4ODY3IC0xLjM2MzI4MywtMi4zNTkzOCAtMC43MTU3OTksLTAuNjM5MDQgLTEuNzU5NDM3LC0xLjA1OTM1IC0zLjEyMzA0NiwtMS4xNTAzOSAwLjA3Nzg5LC0wLjgyMzYgMC4xNDg2OTksLTEuNjU0NzIgMC4xMjQ5OTksLTIuNTY0NDUgMi40NTk5NjEsLTAuMTE5MDQgNS41MzczMjUsLTAuMTY3OTIgNy4xMjg5MDcsLTAuMzUxNTYgbCAwLjQ5ODA0OCwtMC4wNTY2IC0wLjExNTIzNiwtMC45OTQxNCAtMC40OTYwOTQsMC4wNTg2IGMgLTEuNTYwMjgyLDAuMTgwMDMgLTQuNjIzMjcsMC4yMjgwMSAtNy4wNjA1NDUsMC4zNDU3IC0wLjAyOTM5LC0wLjgwMTI2IC0wLjExMTI5MywtMS41MTYzOSAtMC4xODM1OTMsLTIuMjQ4MDQgMS4zNjA4NTYsLTAuMDk3NiAyLjQzMTI0LC0wLjU1OTg2IDMuMTQ4NDM2LC0xLjI4OTA3IDAuNzgyNTk0LC0wLjc5NTcgMS4xOTM3ODEsLTEuODE4MTMgMS40MDgyMDMsLTIuODA2NjQgMC40Mjg4NDUsLTEuOTc3MDIgMC4wODc4OSwtMy44OTQ1MyAwLjA4Nzg5LC0zLjg5NDUzIGwgLTAuMDg1OTQsLTAuNDkyMTkgLTAuOTg0Mzc0LDAuMTY5OTMgMC4wODM5OCwwLjQ5NDE0IGMgMCwwIDAuMjk4MzkyLDEuNzczOTkgLTAuMDc4MTMsMy41MDk3NiAtMC4xODgyNTYsMC44Njc4OSAtMC41NDIwMjksMS43MDU3NyAtMS4xNDQ1MywyLjMxODM2IC0wLjU1Mjg2MSwwLjU2MjEyIC0xLjM2MDUxMywwLjkyNjM5IC0yLjUxNTYyNSwxLjAwMzkxIC0wLjYxMDM3OCwtNC43OTM2NyAtMi4wNTg5NTksLTguMDk0NzQgLTMuNTQ4ODI5LC0xMC4yMDUwOCAtMS44NzQyODEsLTIuNjU0ODUgLTMuNzk4ODI2LC0zLjU1NDY5IC0zLjc5ODgzLC0zLjU1NDY5IHoiCiAgICAgICAgIGlkPSJwYXRoMTAiIC8+PHBhdGgKICAgICAgICAgaWQ9ImxwZV9wYXRoLWVmZmVjdDEwIgogICAgICAgICBzdHlsZT0iYmFzZWxpbmUtc2hpZnQ6YmFzZWxpbmU7ZGlzcGxheTppbmxpbmU7b3ZlcmZsb3c6dmlzaWJsZTtvcGFjaXR5OjE7dmVjdG9yLWVmZmVjdDpub25lO2ZpbGw6I2ZmZmZmZjtzdHJva2Utd2lkdGg6MTtzdHJva2UtbGluZWNhcDpzcXVhcmU7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO2VuYWJsZS1iYWNrZ3JvdW5kOmFjY3VtdWxhdGU7c3RvcC1jb2xvcjojMDAwMDAwO3N0b3Atb3BhY2l0eToxIgogICAgICAgICBjbGFzcz0icG93ZXJjbGlwIgogICAgICAgICBkPSJtIDE4LjUyOTQ3NiwxMTMuODE3MSBoIDQyLjIxMjQ0MSB2IDQyLjIxMjQ0IEggMTguNTI5NDc2IFogbSAyMi4xNjU4MzQsNC4xMTI1OSAtMC40MTc5NjcsMC45MDgyIDAuNDU1MDc5LDAuMjA4OTkgYyAwLDAgMS42NDI0ODgsMC43NDAxMyAzLjM5NjQ4MiwzLjIyNDYgMS4zNzQyNTMsMS45NDY1OCAyLjc1NDc1OCw1LjAwNjExIDMuMzU5Mzc2LDkuNTQxMDIgLTMuMjQ1MTEyLC0wLjM3NjI3IC01LjY0OTE1MywtMi42MTc3NiAtOC43OTY4NzYsLTQuODk4NDQgYSAwLjUwMDA1LDAuNTAwMDUgMCAwIDAgLTAuMDAzOSwtMC4wMDIgYyAtNC41NTgwMDQsLTMuMjU5NjIgLTguMTIxNDcyLC00LjIwOTcyIC0xMC4zNzUsLTQuMjc1MzkgbCAtMC40OTk5OTksLTAuMDE1NiAtMC4wMjkzLDEgMC41LDAuMDE1NiBjIDIuMDAxNzkyLDAuMDU4MyA1LjM5MjM2MSwwLjkxODQ5IDkuODI0MjE5LDQuMDg3ODkgMy4xMjU3MTUsMi4yNjUyOSA1LjczOTM0OCw0Ljc2NjIgOS40NjQ4NDUsNS4xMDkzNyAwLjA3Nzk2LDAuNzU4MDYgMC4xNTkwMjEsMS41MDgwOCAwLjE4OTQ1MiwyLjM0NzY2IC02LjU0NjY5OSwwLjI2NzE4IC0xNC42MzA4NjUsMC4zMTEyNiAtMjQuNTQ0OTIxLC0wLjYyMTA5IGwgLTAuNDk4MDQ3LC0wLjA0NjkgLTAuMDkzNzUsMC45OTYxIDAuNDk4MDQ2LDAuMDQ2OSBjIDkuOTY1OTgyLDAuOTM3MjQgMTguMDg2NDQxLDAuODkyOTkgMjQuNjgxNjQsMC42MjMwNSAwLjAyMzYsMC45MzAzOCAtMC4wMzg2NywxLjc4NDE3IC0wLjEyMzA0NCwyLjYxNzE4IC0xLjY3MTMyNywwLjE3NDM3IC0zLjE0MTY2MiwwLjY5MTk4IC00LjUwMzkwOSwxLjUgLTEuNTg0MDIzLDAuOTM5NTggLTMuMTA0MTA3LDIuMTUwNTcgLTQuOTM5NDUyLDMuMzUxNTcgYSAwLjUwMDA1LDAuNTAwMDUgMCAwIDAgLTAuMDAyLDAuMDAyIGMgLTQuMzQzNzM0LDIuODc0MjYgLTcuNTc3NTE5LDIuNjg2NzUgLTkuNzQ4MDQ4LDIuNzUgbCAtMC40OTk5OTksMC4wMTM3IDAuMDI5MywxIDAuNSwtMC4wMTM3IGMgMi4wODQ0MTYsLTAuMDYwNyA1LjcxNDUzNSwwLjA5OTEgMTAuMjY5NTMxLC0yLjkxNDA2IGwgMC4wMDIsLTAuMDAyIGMgMS44Nzk0MSwtMS4yMzAwMiAzLjM5OTkzOSwtMi40MzkyNyA0Ljg5ODQzNywtMy4zMjgxMiAxLjIzMjc2MywtMC43MzEyMiAyLjQ4NzUwNiwtMS4xNjU0MiAzLjkwMDM5MSwtMS4zNDM3NSAtMS4xODYyMTksNy43MTA0IC02LjU0ODgyOCwxMC45NzA3IC02LjU0ODgyOCwxMC45NzA3IGwgLTAuNDI1NzgyLDAuMjU5NzcgMC41MjE0ODYsMC44NTM1MSAwLjQyNTc4MiwtMC4yNTk3NiBjIDAsMCA1Ljg4ODc3NSwtMy42Mzk3OCA3LjA3MDMxMSwtMTEuOTQzMzYgMS4xNzE0NDYsMC4wODA2IDEuOTY5NzU4LDAuNDE5ODIgMi41MDU4NiwwLjg5ODQ0IDAuNTY2MzQxLDAuNTA1NjEgMC44ODU3LDEuMTY3MjUgMS4wNTg1OTIsMS44NTU0NyAwLjM0NTc4OCwxLjM3NjQyIDAuMDY4MzYsMi43NzczNCAwLjA2ODM2LDIuNzc3MzQgbCAtMC4xMDE1NjMsMC40ODgyOCAwLjk3ODUxNiwwLjIwMzEzIDAuMTAxNTYxLC0wLjQ4ODI5IGMgMCwwIDAuMzM4NDEyLC0xLjU3MjM4IC0wLjA3NjE3LC0zLjIyMjY1IC0wLjIwNzI5MywtMC44MjUxNCAtMC42MTIwMTUsLTEuNjg4NjcgLTEuMzYzMjgzLC0yLjM1OTM4IC0wLjcxNTc5OSwtMC42MzkwNCAtMS43NTk0MzcsLTEuMDU5MzUgLTMuMTIzMDQ2LC0xLjE1MDM5IDAuMDc3ODksLTAuODIzNiAwLjE0ODY5OSwtMS42NTQ3MiAwLjEyNDk5OSwtMi41NjQ0NSAyLjQ1OTk2MSwtMC4xMTkwNCA1LjUzNzMyNSwtMC4xNjc5MiA3LjEyODkwNywtMC4zNTE1NiBsIDAuNDk4MDQ4LC0wLjA1NjYgLTAuMTE1MjM2LC0wLjk5NDE0IC0wLjQ5NjA5NCwwLjA1ODYgYyAtMS41NjAyODIsMC4xODAwMyAtNC42MjMyNywwLjIyODAxIC03LjA2MDU0NSwwLjM0NTcgLTAuMDI5MzksLTAuODAxMjYgLTAuMTExMjkzLC0xLjUxNjM5IC0wLjE4MzU5MywtMi4yNDgwNCAxLjM2MDg1NiwtMC4wOTc2IDIuNDMxMjQsLTAuNTU5ODYgMy4xNDg0MzYsLTEuMjg5MDcgMC43ODI1OTQsLTAuNzk1NyAxLjE5Mzc4MSwtMS44MTgxMyAxLjQwODIwMywtMi44MDY2NCAwLjQyODg0NSwtMS45NzcwMiAwLjA4Nzg5LC0zLjg5NDUzIDAuMDg3ODksLTMuODk0NTMgbCAtMC4wODU5NCwtMC40OTIxOSAtMC45ODQzNzQsMC4xNjk5MyAwLjA4Mzk4LDAuNDk0MTQgYyAwLDAgMC4yOTgzOTIsMS43NzM5OSAtMC4wNzgxMywzLjUwOTc2IC0wLjE4ODI1NiwwLjg2Nzg5IC0wLjU0MjAyOSwxLjcwNTc3IC0xLjE0NDUzLDIuMzE4MzYgLTAuNTUyODYxLDAuNTYyMTIgLTEuMzYwNTEzLDAuOTI2MzkgLTIuNTE1NjI1LDEuMDAzOTEgLTAuNjEwMzc4LC00Ljc5MzY3IC0yLjA1ODk1OSwtOC4wOTQ3NCAtMy41NDg4MjksLTEwLjIwNTA4IC0xLjg3NDI4MSwtMi42NTQ4NSAtMy43OTg4MjYsLTMuNTU0NjkgLTMuNzk4ODMsLTMuNTU0NjkgeiIgLz48L2NsaXBQYXRoPjwvZGVmcz48ZwogICAgIGlkPSJsYXllcjEiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0LjIyMjA4MywtMTAuNzcwNjUpIj48ZwogICAgICAgaWQ9ImcxIj48cGF0aAogICAgICAgICBzdHlsZT0iZmlsbDojZmY3ZjUwO2ZpbGwtb3BhY2l0eToxO3N0cm9rZS13aWR0aDowLjI3Mjk3IgogICAgICAgICBpZD0icGF0aDEiCiAgICAgICAgIGNsaXAtcGF0aD0idXJsKCNjbGlwUGF0aDEwKSIKICAgICAgICAgdHJhbnNmb3JtPSJyb3RhdGUoMTQwLDU0LjY0NDg0Niw3OS4yMDYyODgpIgogICAgICAgICBkPSJtIDU1Ljc0MTkxNywxMzQuOTIzMzIgYSAxNi4xMDYyMiwxNi4xMDYyMiAwIDAgMSAtMTYuMTA2MjIxLDE2LjEwNjIyIDE2LjEwNjIyLDE2LjEwNjIyIDAgMCAxIC0xNi4xMDYyMiwtMTYuMTA2MjIgMTYuMTA2MjIsMTYuMTA2MjIgMCAwIDEgMTYuMTA2MjIsLTE2LjEwNjIyIDE2LjEwNjIyLDE2LjEwNjIyIDAgMCAxIDE2LjEwNjIyMSwxNi4xMDYyMiB6IiAvPjwvZz48L2c+PC9zdmc+Cg==";
 
 	class ODE {
@@ -213,7 +209,6 @@
 					jointType: {
 						acceptReporters: false,
 						items: [
-							"Angular Motor",
 							"Ball-And-Socket",
 							"Double Ball-And-Socket",
 							"Double Hinge",
@@ -226,7 +221,8 @@
 							"Prismatic-Rotoride",
 							"Prismatic-Universal",
 							"Slider",
-							"Transmission"
+							"Transmission",
+							"Universal"
 						]
 					}
 				},
@@ -886,7 +882,7 @@
 						arguments: {
 							JOINT: {
 								type: Scratch.ArgumentType.STRING,
-								defaultValue: "Angular Motor",
+								defaultValue: "Ball-And-Socket",
 								menu: "jointType"
 							},
 							BODY1: {
@@ -1238,7 +1234,7 @@
 
 			if(!worlds[world] || gravity.length != 3) return;
 
-			dWorldSetGravity(worlds[key].world, gravity[0], gravity[1], gravity[2]);
+			dWorldSetGravity(worlds[world].world, gravity[0], gravity[1], gravity[2]);
 		}
 
 		worldIsRaycastTouching(args) {
@@ -1687,9 +1683,6 @@
 
 			let m;
 			switch(joint){
-				case "Angular Motor":
-					m = dJointCreateAMotor;
-					break;
 				case "Ball-And-Socket":
 					m = dJointCreateBall;
 					break;
@@ -1729,6 +1722,9 @@
 				case "Transmission":
 					m = dJointCreateTransmission;
 					break;
+				case "Universal":
+					m = dJointCreateUniversal;
+					break;
 			}
 
 			const key = new_obj_key(joints);
@@ -1739,6 +1735,8 @@
 				bodies: [body1, body2],
 				type: m
 			};
+
+			dJointAttach(joints[key].joint, bodies[body1].body, bodies[body2].body);
 			
 			return key;
 		}
@@ -1773,6 +1771,24 @@
 					break;
 				case dJointCreatePiston:
 					m = dJointGetPistonAnchor;
+					break;
+				case dJointCreateUniversal:
+					m = dJointGetUniversalAnchor;
+					break;
+				case dJointCreatePR:
+					m = dJointGetPRAnchor;
+					break;
+				case dJointCreatePU:
+					m = dJointGetPUAnchor;
+					break;
+				case dJointCreateTransmission:
+					m = dJointGetTransmissionAnchor;
+					break;
+				case dJointCreateDBall:
+					m = dJointGetDBallAnchor;
+					break;
+				case dJointCreateDHinge:
+					m = dJointGetDHingeAnchor;
 					break;
 			}
 			if (!m) return [];
@@ -1813,6 +1829,18 @@
 				case dJointCreatePU:
 					m = dJointSetPUAnchor;
 					break;
+				case dJointCreateTransmission:
+					m = dJointSetTransmissionAnchor1;
+					break;
+				case dJointCreateDBall:
+					m = dJointSetDBallAnchor1;
+					break;
+				case dJointCreateDHinge:
+					m = dJointSetDHingeAnchor1;
+					break;
+				case dJointCreateUniversal:
+					m = dJointSetUniversalAnchor;
+					break;
 			}
 			if (!m) return;
 
@@ -1834,8 +1862,23 @@
 				case dJointCreateHinge:
 					m = dJointGetHingeAnchor2;
 					break;
+				case dJointCreateHinge2:
+					m = dJointGetHinge2Anchor2;
+					break;
 				case dJointCreatePiston:
 					m = dJointGetPistonAnchor2;
+					break;
+				case dJointCreateUniversal:
+					m = dJointGetUniversalAnchor2;
+					break;
+				case dJointCreateTransmission:
+					m = dJointGetTransmissionAnchor2;
+					break;
+				case dJointCreateDBall:
+					m = dJointGetDBallAnchor2;
+					break;
+				case dJointCreateDHinge:
+					m = dJointGetDHingeAnchor2;
 					break;
 			}
 			if (!m) return [];
@@ -1858,11 +1901,17 @@
 
 			let m;
 			switch (joints[joint].type) {
-				case dJointCreateHinge:
-					m = dJointSetHingeAnchor;
+				case dJointCreateBall:
+					m = dJointSetBallAnchor2;
 					break;
-				case dJointCreateHinge2:
-					m = dJointSetHinge2Anchor;
+				case dJointCreateTransmission:
+					m = dJointSetTransmissionAnchor2;
+					break;
+				case dJointCreateDBall:
+					m = dJointSetDBallAnchor2;
+					break;
+				case dJointCreateDHinge:
+					m = dJointSetDHingeAnchor2;
 					break;
 			}
 			if (!m) return;
@@ -1882,8 +1931,8 @@
 				case dJointCreateHinge:
 					m = dJointGetHingeAxis;
 					break;
-				case dJointCreateAMotor:
-					m = dJointGetAMotorAxis;
+				case dJointCreateHinge2:
+					m = dJointGetHinge2Axis1;
 					break;
 				case dJointCreateLMotor:
 					m = dJointGetLMotorAxis;
@@ -1900,6 +1949,15 @@
 				case dJointCreatePU:
 					m = dJointGetPUAxis1;
 					break;
+				case dJointCreateTransmission:
+					m = dJointGetTransmissionAxis1;
+					break;
+				case dJointCreateUniversal:
+					m = dJointGetUniversalAxis1;
+					break;
+				case dJointCreateDHinge:
+					m = dJointGetDHingeAxis;
+					break;
 			}
 			if (!m) return [];
 			m(joints[joint].type, ptr);
@@ -1915,17 +1973,17 @@
 
 		jointSetPrimaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
-			const anchor = [...to_f32array(args.ANCHOR)];
+			const axis = [...to_f32array(args.AXIS)];
 
-			if (!joints[joint] || anchor.length != 3) return;
+			if (!joints[joint] || axis.length != 3) return;
 
 			let m;
 			switch (joints[joint].type) {
 				case dJointCreateHinge:
 					m = dJointSetHingeAxis;
 					break;
-				case dJointCreateAMotor:
-					m = dJointSetAMotorAxis;
+				case dJointCreateHinge2:
+					m = dJointSetHinge2Axis1;
 					break;
 				case dJointCreateLMotor:
 					m = dJointSetLMotorAxis;
@@ -1942,10 +2000,19 @@
 				case dJointCreatePU:
 					m = dJointSetPUAxis1;
 					break;
+				case dJointCreateTransmission:
+					m = dJointSetTransmissionAxis1;
+					break;
+				case dJointCreateUniversal:
+					m = dJointSetUniversalAxis1;
+					break;
+				case dJointCreateDHinge:
+					m = dJointSetDHingeAxis;
+					break;
 			}
 			if (!m) return;
 
-			m(joints[joint].joint, anchor[0], anchor[1], anchor[2]);
+			m(joints[joint].joint, axis[0], axis[1], axis[2]);
 		}
 
 		jointGetSecondaryAxis(args) {
@@ -1957,14 +2024,20 @@
 
 			let m;
 			switch (joints[joint].type) {
-				case dJointCreateHinge:
-					m = dJointGetHingeAxis2;
+				case dJointCreateHinge2:
+					m = dJointGetHinge2Axis2;
+					break;
+				case dJointCreateUniversal:
+					m = dJointGetUniversalAxis2;
 					break;
 				case dJointCreatePR:
 					m = dJointGetPRAxis2;
 					break;
 				case dJointCreatePU:
 					m = dJointGetPUAxis2;
+					break;
+				case dJointCreateTransmission:
+					m = dJointGetTransmissionAxis2;
 					break;
 			}
 			if (!m) return [];
@@ -1981,37 +2054,31 @@
 
 		jointSetSecondaryAxis(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
-			const anchor = [...to_f32array(args.ANCHOR)];
+			const axis = [...to_f32array(args.AXIS)];
 
-			if (!joints[joint] || anchor.length != 3) return;
+			if (!joints[joint] || axis.length != 3) return;
 
 			let m;
 			switch (joints[joint].type) {
-				case dJointCreateHinge:
-					m = dJointSetAxis;
+				case dJointCreateHinge2:
+					m = dJointSetHinge2Axis2;
 					break;
-				case dJointCreateAMotor:
-					m = dJointSetAMotorAxis;
-					break;
-				case dJointCreateLMotor:
-					m = dJointSetLMotorAxis;
-					break;
-				case dJointCreatePiston:
-					m = dJointSetPistonAxis;
-					break;
-				case dJointCreateSlider:
-					m = dJointSetSliderAxis;
+				case dJointCreateUniversal:
+					m = dJointSetUniversalAxis2;
 					break;
 				case dJointCreatePR:
-					m = dJointSetPRAxis1;
+					m = dJointSetPRAxis2;
 					break;
 				case dJointCreatePU:
-					m = dJointSetPUAxis1;
+					m = dJointSetPUAxis2;
+					break;
+				case dJointCreateTransmission:
+					m = dJointSetTransmissionAxis2;
 					break;
 			}
 			if (!m) return;
 
-			m(joints[joint].joint, anchor[0], anchor[1], anchor[2]);
+			m(joints[joint].joint, axis[0], axis[1], axis[2]);
 		}
 
 		jointGetTertiaryAxis(args) {
@@ -2040,33 +2107,54 @@
 		}
 
 		jointSetTertiaryAxis(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const axis = [...to_f32array(args.AXIS)];
+
+			if (!joints[joint] || axis.length != 3) return;
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreatePU:
+					m = dJointSetPUAxis3;
+					break;
+			}
+			if (!m) return;
+
+			m(joints[joint].joint, axis[0], axis[1], axis[2]);
 		}
 
 		jointGetPrimaryAngle(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
-			if (!joints[joint]) return [];
-
-			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+			if (!joints[joint]) return 0;
 
 			let m;
 			switch (joints[joint].type) {
 				case dJointCreateHinge:
 					m = dJointGetHingeAngle;
 					break;
-				case dJointCreateAMotor:
-					m = dJointGetAMotorAngle;
+				case dJointCreateHinge2:
+					m = dJointGetHinge2Angle1;
 					break;
 				case dJointCreatePiston:
 					m = dJointGetPistonAngle;
 					break;
+				case dJointCreatePR:
+					m = dJointGetPRAngle;
+					break;
 				case dJointCreatePU:
 					m = dJointGetPUAngle1;
 					break;
+				case dJointCreateUniversal:
+					m = dJointGetUniversalAngle1;
+					break;
+				case dJointCreateTransmission:
+					m = dJointGetTransmissionAngle1;
+					break;
 			}
-			if (!m) return [];
+			if (!m) return 0;
 
-			return m(joints[joint].type, ptr) * (180/Math.PI);
+			return m(joints[joint].type) * (180/Math.PI);
 		}
 
 		jointSetPrimaryAngle(args) {
@@ -2075,31 +2163,93 @@
 		jointGetSecondaryAngle(args) {
 			const joint = Scratch.Cast.toString(args.JOINT);
 
-			if (!joints[joint]) return [];
-
-			const ptr = Module._malloc(Module.HEAPF64.BYTES_PER_ELEMENT * 4);
+			if (!joints[joint]) return 0;
 
 			let m;
 			switch (joints[joint].type) {
+				case dJointCreateHinge2:
+					m = dJointGetHingeAngle2;
+					break;
+				case dJointCreateUniversal:
+					m = dJointGetUniversalAngle2;
+					break;
 				case dJointCreatePU:
 					m = dJointGetPUAngle2;
 					break;
+				case dJointCreateTransmission:
+					m = dJointGetTransmissionAngle2;
+					break;
 			}
-			if (!m) return [];
+			if (!m) return 0;
 
-			return m(joints[joint].type, ptr) * (180/Math.PI);
+			return m(joints[joint].type) * (180/Math.PI);
 		}
 
 		jointSetSecondaryAngle(args) {
 		}
 
 		jointAddForce(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const force = Scratch.Cast.toNumber(args.FORCE);
+
+			if (!joints[joint]) return;
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateSlider:
+					m = dJointAddSliderForce;
+					break;
+				case dJointCreatePiston:
+					m = dJointAddPistonForce;
+					break;
+			}
+			if (!m) return;
+
+			m(joints[joint].joint, force);
 		}
 
 		jointAddTorque(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const torque = Scratch.Cast.toNumber(args.TORQUE);
+
+			if (!joints[joint]) return;
+
+			let m;
+			switch (joints[joint].type) {
+				case dJointCreateHinge:
+					m = dJointAddHingeTorque;
+					break;
+				case dJointCreatePR:
+					m = dJointAddPRToeque;
+					break;
+			}
+			if (!m) return;
+
+			m(joints[joint].joint, torque);
 		}
 
 		jointAddTorques(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const torques = [...to_f32array(args.TORQUES)];
+
+			if (!joints[joint]) return;
+
+			if(torques.length == 1){
+				this.jointAddTorque({JOINT: joint, TORQUE: torques[0]});
+				return;
+			}
+
+			switch (joints[joint].type) {
+				case dJointCreateHinge2:
+					if(torques.length == 2) dJointAddHinge2Torques(joints[joint].joint, torques[0], torques[1]);
+					break;
+				case dJointCreateUniversal:
+					if(torques.length == 2) dJointAddUniversalTorques(joints[joint].joint, torques[0], torques[1]);
+					break;
+				case dJointCreatePU:
+					if(torques.length == 3) dJointAddPUTorques(joints[joint].joint, torques[0], torques[1]);
+					break;
+			}
 		}
 	};
 
