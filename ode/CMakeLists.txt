@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.11)
-project(ode)
+
+if(NOT DEFINED ODE_TARGET)
+	set(ODE_TARGET ode)
+endif()
+
+project(${ODE_TARGET})
 
 set(BASE ../../ode)
 
@@ -11,12 +16,12 @@ file(GLOB ODE_SRC
 	${BASE}/GIMPACT/src/*.cpp
 	${BASE}/libccd/src/*.c
 )
-add_library(odewasm STATIC ${ODE_SRC})
-target_include_directories(odewasm PUBLIC
+add_library(${ODE_TARGET} STATIC ${ODE_SRC})
+target_include_directories(${ODE_TARGET} PUBLIC
 	${BASE}/include
 	${CMAKE_CURRENT_BINARY_DIR}
 )
-target_include_directories(odewasm PRIVATE
+target_include_directories(${ODE_TARGET} PRIVATE
 	${BASE}/ode/src
 	${BASE}/ode/src/joints
 	${BASE}/OPCODE
@@ -30,7 +35,7 @@ list(REMOVE_ITEM ODE_SRC ${CMAKE_CURRENT_SOURCE_DIR}/${BASE}/ode/src/collision_t
 list(REMOVE_ITEM ODE_SRC ${CMAKE_CURRENT_SOURCE_DIR}/${BASE}/ode/src/collision_trimesh_opcode.cpp)
 list(REMOVE_ITEM ODE_SRC ${CMAKE_CURRENT_SOURCE_DIR}/${BASE}/ode/src/collision_trimesh_disabled.cpp)
 
-target_compile_definitions(odewasm PRIVATE
+target_compile_definitions(${ODE_TARGET} PRIVATE
 	_OU_NAMESPACE=odeou
 	_OU_FEATURE_SET=_OU_FEATURE_SET_TLS
 	dLIBCCD_ENABLED
@@ -45,7 +50,7 @@ target_compile_definitions(odewasm PRIVATE
 	dLIBCCD_CONVEX_CONVEX
 )
 
-target_link_libraries(odewasm PUBLIC stdc++)
+target_link_libraries(${ODE_TARGET} PUBLIC stdc++)
 
 set(ODE_PRECISION "dDOUBLE")
 set(CCD_PRECISION "CCD_DOUBLE")

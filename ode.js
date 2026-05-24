@@ -19,12 +19,14 @@
 	let dBodyCreate, dBodyDestroy, dBodyInitMass, dBodyGetPosition, dBodySetPosition, dBodyGetQuaternion, dBodySetQuaternion, dBodyAddForce, dBodyGetForce, dBodySetForce, dBodyGetLinearDamping, dBodyGetAngularDamping, dBodySetLinearDamping, dBodySetAngularDamping, dBodyIsKinematic, dBodySetKinematic, dBodySetDynamic;
 	let dCreateBox, dCreateCapsule, dCreateCylinder, dCreateSphere, dCreatePlane;
 	let dGeomDestroy, dGeomSetBody, dGeomGetPosition, dGeomSetPosition, dGeomGetQuaternion, dGeomSetQuaternion;
+	let dJointCreateAMotor, dJointCreateBall, dJointCreateDBall, dJointCreateDHinge, dJointCreateFixed, dJointCreateHinge, dJointCreateHinge2, dJointCreateLMotor, dJointCreatePiston, dJointCreatePlane2D, dJointCreatePR, dJointCreatePU, dJointCreateSlider, dJointCreateTransmission, dJointDestroy;
 	let ode;
 	let embedded = false;
 	var ODEWASM;
 	let worlds = {};
 	let geoms = {};
 	let bodies = {};
+	let joints = {};
 	const blk_array = Scratch.BlockType[Scratch.extensions.isNitroBolt ? "ARRAY" : "REPORTER"];
 	const arg_array = Scratch.ArgumentType[Scratch.extensions.isNitroBolt ? "ARRAY" : "STRING"];
 	const from_array = Scratch.extensions.isNitroBolt ? ((x)=>x) : ((x)=>JSON.stringify(x));
@@ -99,6 +101,22 @@
 	dGeomSetPosition = Module.cwrap("dGeomSetPosition", "number", ["number", "number", "number", "number"]);
 	dGeomGetQuaternion = Module.cwrap("dGeomGetQuaternion", null, ["number", "number"]);
 	dGeomSetQuaternion = Module.cwrap("dGeomSetQuaternion", null, ["number", "number"]);
+
+	dJointCreateAMotor = Module.cwrap("dJointCreateAMotor", "number", ["number", "number"]);
+	dJointCreateBall = Module.cwrap("dJointCreateBall", "number", ["number", "number"]);
+	dJointCreateDBall = Module.cwrap("dJointCreateDBall", "number", ["number", "number"]);
+	dJointCreateDHinge = Module.cwrap("dJointCreateDHinge", "number", ["number", "number"]);
+	dJointCreateFixed = Module.cwrap("dJointCreateFixed", "number", ["number", "number"]);
+	dJointCreateHinge = Module.cwrap("dJointCreateHinge", "number", ["number", "number"]);
+	dJointCreateHinge2 = Module.cwrap("dJointCreateHinge2", "number", ["number", "number"]);
+	dJointCreateLMotor = Module.cwrap("dJointCreateLMotor", "number", ["number", "number"]);
+	dJointCreatePiston = Module.cwrap("dJointCreatePiston", "number", ["number", "number"]);
+	dJointCreatePlane2D = Module.cwrap("dJointCreatePlane2D", "number", ["number", "number"]);
+	dJointCreatePR = Module.cwrap("dJointCreatePR", "number", ["number", "number"]);
+	dJointCreatePU = Module.cwrap("dJointCreatePU", "number", ["number", "number"]);
+	dJointCreateSlider = Module.cwrap("dJointCreateSlider", "number", ["number", "number"]);
+	dJointCreateTransmission = Module.cwrap("dJointCreateTransmission", "number", ["number", "number"]);
+	dJointDestroy = Module.cwrap("dJointDestroy", "number", ["number", "number"]);
 
 	function new_obj_key(obj){
 		let n;
@@ -189,11 +207,23 @@
 				blockIconURI: blockIconURI,
 				color1: "#444444",
 				menus: {
-					upDirection: {
+					jointType: {
 						acceptReporters: false,
 						items: [
-							"+Y",
-							"+Z"
+							"Angular Motor",
+							"Ball-And-Socket",
+							"Double Ball-And-Socket",
+							"Double Hinge",
+							"Fixed",
+							"Hinge",
+							"Hinge-2",
+							"Linear Motor",
+							"Piston",
+							"Plane 2D",
+							"Prismatic-Rotoride",
+							"Prismatic-Universal",
+							"Slider",
+							"Transmission"
 						]
 					}
 				},
@@ -290,7 +320,7 @@
 						opcode: "bodyDestroy",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
-							"destroy body [BODY] and associated geometries"
+							"destroy body [BODY] and associated geometries/joints"
 						),
 						arguments: {
 							BODY: {
@@ -681,7 +711,7 @@
 						opcode: "geomAssociateBody",
 						blockType: Scratch.BlockType.COMMAND,
 						text: Scratch.translate(
-							"associate body [BODY] with geometry [GEOM] with mass [MASS]"
+							"associate geometry [GEOM] with body [BODY] with mass [MASS]"
 						),
 						arguments: {
 							BODY: {
@@ -790,7 +820,235 @@
 								defaultValue: from_array([0, 0, 0, 1])
 							}
 						}
-					}
+					},
+					{
+						blockType: "label",
+						text: Scratch.translate(
+							"Joint"
+						)
+					},
+					{
+						opcode: "newJoint",
+						blockType: Scratch.BlockType.REPORTER,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"new [JOINT] joint between body [BODY1] and body [BODY2]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: "Angular Motor",
+								menu: "jointType"
+							},
+							BODY1: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							BODY2: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointDestroy",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"destroy joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointGetPrimaryAnchor",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get primary anchor of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetPrimaryAnchor",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set primary anchor of joint [JOINT] to [ANCHOR]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							ANCHOR: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0])
+							}
+						}
+					},
+					{
+						opcode: "jointGetSeocndaryAnchor",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get secondary anchor of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetSeocndaryAnchor",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set secondary anchor of joint [JOINT] to [ANCHOR]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							ANCHOR: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0])
+							}
+						}
+					},
+					{
+						opcode: "jointGetPrimaryAxis",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get primary axis of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetPrimaryAxis",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set primary axis of joint [JOINT] to [AXIS]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							AXIS: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0])
+							}
+						}
+					},
+					{
+						opcode: "jointGetSeocndaryAxis",
+						blockType: blk_array,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get secondary axis of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetSeocndaryAxis",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set secondary axis of joint [JOINT] to [AXIS]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							AXIS: {
+								type: arg_array,
+								defaultValue: from_array([0, 0, 0])
+							}
+						}
+					},
+					{
+						opcode: "jointGetPrimaryAngle",
+						blockType: Scratch.BlockType.REPORTER,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get primary angle of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetPrimaryAngle",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set primary angle of joint [JOINT] to [ANGLE]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							ANGLE: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0
+							}
+						}
+					},
+					{
+						opcode: "jointGetSeocndaryAngle",
+						blockType: Scratch.BlockType.REPORTER,
+						disableMonitor: true,
+						text: Scratch.translate(
+							"get secondary angle of joint [JOINT]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							}
+						}
+					},
+					{
+						opcode: "jointSetSeocndaryAngle",
+						blockType: Scratch.BlockType.COMMAND,
+						text: Scratch.translate(
+							"set secondary angle of joint [JOINT] to [ANGLE]"
+						),
+						arguments: {
+							JOINT: {
+								type: Scratch.ArgumentType.STRING,
+								defaultValue: ""
+							},
+							ANGLE: {
+								type: Scratch.ArgumentType.NUMBER,
+								defaultValue: 0
+							}
+						}
+					},
 				]
 			};
 		}
@@ -824,6 +1082,7 @@
 
 			geoms = obj_exclude(geoms, "world", world);
 			bodies = obj_exclude(bodies, "world", world);
+			joints = obj_exclude(joints, "world", world);
 
 			dJointGroupDestroy(worlds[world].contactGroup);
 			dSpaceDestroy(worlds[world].space);
@@ -879,6 +1138,17 @@
 
 				delete geoms[i];
 			}
+
+			for(let i of Object.keys(joints).filter(x=>joints[x].bodies.includes(body))){
+				this.jointDestroy({JOINT: i});
+			}
+
+			let n = {};
+			for(let i of Object.keys(joints)){
+				if(joints[i].bodies.includes(body)) continue;
+				n[i] = joints[i];
+			}
+			joints = n;
 
 			delete bodies[body];
 		}
@@ -1254,6 +1524,116 @@
 			dGeomSetQuaternion(geoms[geom].geom, ptr);
 
 			Module._free(ptr);
+		}
+
+		newJoint(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+			const body1 = Scratch.Cast.toString(args.BODY1);
+			const body2 = Scratch.Cast.toString(args.BODY2);
+
+			if(!bodies[body1] || !bodies[body2]) return;
+
+			let m;
+			switch(joint){
+				case "Angular Motor":
+					m = dJointCreateAMotor;
+					break;
+				case "Ball-And-Socket":
+					m = dJointCreateBall;
+					break;
+				case "Double Ball-And-Socket":
+					m = dJointCreateDBall;
+					break;
+				case "Double Hinge":
+					m = dJointCreateDHinge;
+					break;
+				case "Fixed":
+					m = dJointCreateFixed;
+					break;
+				case "Hinge":
+					m = dJointCreateHinge;
+					break;
+				case "Hinge-2":
+					m = dJointCreateHinge2;
+					break;
+				case "Linear Motor":
+					m = dJointCreateLMotor;
+					break;
+				case "Piston":
+					m = dJointCreatePiston;
+					break;
+				case "Plane 2D":
+					m = dJointCreatePlane2D;
+					break;
+				case "Prismatic-Rotoride":
+					m = dJointCreatePR;
+					break;
+				case "Prismatic-Universal":
+					m = dJointCreatePU;
+					break;
+				case "Slider":
+					m = dJointCreateSlider;
+					break;
+				case "Transmission":
+					m = dJointCreateTransmission;
+					break;
+			}
+
+			const key = new_obj_key(joints);
+
+			joints[key] = {
+				joint: m(worlds[bodies[body1].world].world, 0),
+				world: bodies[body1].world,
+				bodies: [body1, body2]
+			};
+			
+			return key;
+		}
+
+		jointDestroy(args) {
+			const joint = Scratch.Cast.toString(args.JOINT);
+
+			if(!joints[joint]) return;
+
+			dJointDestroy(joints[joint].joint);
+
+			delete joints[joint];
+		}
+
+		jointGetPrimaryAnchor(args) {
+		}
+
+		jointSetPrimaryAnchor(args) {
+		}
+
+		jointGetSeocndaryAnchor(args) {
+		}
+
+		jointSetSeocndaryAnchor(args) {
+		}
+
+		jointGetPrimaryAxis(args) {
+		}
+
+		jointSetPrimaryAxis(args) {
+		}
+
+		jointGetSeocndaryAxis(args) {
+		}
+
+		jointSetSeocndaryAxis(args) {
+		}
+
+		jointGetPrimaryAngle(args) {
+		}
+
+		jointSetPrimaryAngle(args) {
+		}
+
+		jointGetSeocndaryAngle(args) {
+		}
+
+		jointSetSeocndaryAngle(args) {
 		}
 	};
 
