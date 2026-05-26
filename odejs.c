@@ -195,8 +195,8 @@ dGeomID dCustomCreateTriMesh(dSpaceID space, dReal* vertex, int vertex_count, un
 		for(j = 0; j < 3; j++) t->indices[i * 3 + j] = index[i * 3 + j];
 	}
 
-	dGeomTriMeshDataBuildSingle(t->g,
-		t->vertices, 3 * sizeof(float), vertex_count,
+	dGeomTriMeshDataBuildDouble(t->g,
+		t->vertices, 3 * sizeof(*t->vertices), vertex_count,
 		t->indices, 3 * index_count, 3 * sizeof(int));
 
 	g = dCreateTriMesh(space, t->g, NULL, NULL, NULL);
